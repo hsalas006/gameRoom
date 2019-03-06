@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.1",
+  "description": "Game Room project of Design Course first semester 2019 ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hsalas006/gameRoom.git"
+  },
+  "keywords": [
+    "game",
+    "room"
+  ],
+  "author": "Harold Salas Solorzano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hsalas006/gameRoom/issues"
+  },
+  "homepage": "https://github.com/hsalas006/gameRoom#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-promise-router": "^3.0.3",
+    "firebase-admin": "^7.0.0"
+  }
+}
