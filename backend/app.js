@@ -1,10 +1,10 @@
 const express = require('express');
 const firebase = require('firebase-admin');
-const bodyParser = require('body-parser');
+
+const morgan = require('morgan');
 const cors = require('cors');
 const userRoutes = require('./routes/users');
 
-const port = 8080;
 const app = express();
 const serviceAccountKey = require('../gameroom-3127e-firebase-adminsdk-13fl3-e7d9af67b5.json');
 
@@ -14,13 +14,17 @@ firebase.initializeApp({
     databaseURL: 'https://gameroom-3127e.firebaseio.com'
 });
 
+// Settings
+app.set('port', process.env.PORT || 8080)
 
 // Middlewares
-app.use(bodyParser.json());
+app.use(morgan());
+app.use(express.json());
 
 // Routes
 app.use('/users', userRoutes);
 
 // Start the server
-app.listen(port);
-console.log(`Server listening at port ${port}`);
+app.listen(app.get('port'), () => {
+    console.log(`Server on port ${app.get('port')}`);
+});
