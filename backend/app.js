@@ -14,12 +14,13 @@ firebase.initializeApp({
     databaseURL: 'https://gameroom-3127e.firebaseio.com'
 });
 
-// Settings
+// Settings 
 app.set('port', process.env.PORT || 8080)
 
 // Middlewares
 app.use(morgan());
 app.use(express.json());
+app.use(cors);
 
 // Routes
 app.use('/users', userRoutes);
