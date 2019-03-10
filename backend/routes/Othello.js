@@ -1,12 +1,11 @@
 const express = require('express');
-const router = require('express-promise-router')();
+
 const othelloController = require('../controllers/othello');
 
+const router = express.Router();
 
-router.route('/gameOthello')
-    .post(othelloController);
+router.post('/othelloGames', othelloController.postGame);
 
-router.route('/gameOthello')
-    .get(othelloController);
+router.get('/othelloGames', othelloController.getGames);
 
 module.exports = router;

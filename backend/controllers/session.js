@@ -1,4 +1,4 @@
-exports.postGame = async(req, res, next)=>{
+exports.postSession = async(req, res, next)=>{
     const content = req.body.content;
     // if the response is positive and created
     res.status(201).json({ 
@@ -7,7 +7,7 @@ exports.postGame = async(req, res, next)=>{
     });
 };
 
-exports.getGames = async(req, res, next)=>{
+exports.getSessions = async(req, res, next)=>{
     // if the response is positive
     res.status(200).json({ data });
 };
