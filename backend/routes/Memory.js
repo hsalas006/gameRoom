@@ -1,10 +1,11 @@
 const express = require('express');
 const router = require('express-promise-router')();
+const othelloCOntroller = require('../controllers/othello');
 
 router.route('/gameMemory')
-    .post(UsersController.signUp);
+    .post(othelloCOntroller);
 
 router.route('/gameMemory')
-    .get(UsersController.secret);
+    .get(othelloCOntroller);
 
 module.exports = router;
