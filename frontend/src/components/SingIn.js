@@ -42,41 +42,20 @@ class SignIn extends Component {
     })
   }
 
-  
+  async onSubmit(formData) {
+    await this.props.signIn(formData);
+    if (!this.props.errorMessage) {
+      this.props.history.push('/dashboard');
+    }
+  }
+
+
 
   render() {
     const { handleSubmit } = this.props;
     return (
       <div className="row">
-        <div className="col">
-          <form onSubmit={handleSubmit(this.onSubmit)}>
-            <fieldset>
-              <Field
-                name="email"
-                type="text"
-                id="email"
-                label="Ingresar el correo"
-                placeholder="ejemplo@ejemplo.com"
-                component={ CustomInput } />
-            </fieldset>
-            <fieldset>
-              <Field
-                name="password"
-                type="password"
-                id="password"
-                label="Ingresar la contraseña"
-                placeholder="contraseña"
-                component={ CustomInput } />
-            </fieldset>
-
-            { this.props.errorMessage ? 
-            <div className="alert alert-danger">
-              { this.props.errorMessage }
-            </div> : null }
-
-            <button type="submit" className="btn btn-primary btn-lg btn-block">Ingresar</button>
-          </form>
-        </div>
+        
         <div className="col">
           <div className="text-center">
             <div className="alert alert-primary">
@@ -97,8 +76,8 @@ class SignIn extends Component {
                 firebaseAuth={firebase.auth()}
             />
             )}
-        </div>
-        </div>
+            </div>
+          </div>
         </div>
       </div>
     );

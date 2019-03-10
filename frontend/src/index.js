@@ -17,8 +17,7 @@ ReactDOM.render(
     <Provider store={createStore(reducers, {}, applyMiddleware(reduxThunk))}>
         <BrowserRouter>
             <App>
-                <Route exact path="/" component={Home} />
-                
+                <Route exact path="/" component={SignIn} />
                 <Route exact path="/signin" component={SignIn} />
                 <Route exact path="/dashboard" component={Dashboard} />
 

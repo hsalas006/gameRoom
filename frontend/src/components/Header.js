@@ -15,9 +15,6 @@ export default class Header extends Component {
           </ul>
 
           <ul className="nav navbar-nav ml-auto">
-          <li className="nav-item">
-              <Link className="nav-link" to="/signup">Registro</Link>
-            </li>
             <li className="nav-item">
               <Link className="nav-link" to="/signin">Acceder</Link>
             </li>
