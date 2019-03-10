@@ -7,7 +7,6 @@ import reduxThunk from 'redux-thunk';
 
 import * as serviceWorker from './serviceWorker';
 import App from './components/App';
-import Home from './components/Home';
 import SignIn from './components/SingIn';
 
 import Dashboard from './components/Dashboard';

@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 
 import firebase from "firebase"
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
-
-
-
-import * as actions from '../actions';
-import CustomInput from './CustomInput';
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 firebase.initializeApp({
     apiKey: "AIzaSyA0kHfgbRI6PcZgkiCU-HC1fbHrqPfguec",
     authDomain: "gameroom-3127e.firebaseapp.com"
-})
+});
 
-class SignIn extends Component {
+firebase.auth().useDeviceLanguage();
+
+export default class SignIn extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -52,10 +46,12 @@ class SignIn extends Component {
 
 
   render() {
-    const { handleSubmit } = this.props;
     return (
+    <div className="jumbotron">
+    <h1 className="display-5 text-center">Proyecto #1 - Diseño de Software</h1>
+    <p className="lead text-center">Plataforma de juegos de mesa que permite tener sesiones de juego de forma remota</p>
+    <hr className="my-4"></hr>
       <div className="row">
-        
         <div className="col">
           <div className="text-center">
             <div className="alert alert-primary">
@@ -80,17 +76,7 @@ class SignIn extends Component {
           </div>
         </div>
       </div>
+    </div>
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    errorMessage: state.auth.errorMessage
-  }
-}
-
-export default compose(
-  connect(mapStateToProps, actions),
-  reduxForm({ form: 'signin' })
-)(SignIn)

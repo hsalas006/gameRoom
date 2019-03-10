@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cors);
 
 // Routes
-app.use('/users', userRoutes);
+//app.use('/users', userRoutes);
 
 // Start the server
 app.listen(app.get('port'), () => {
