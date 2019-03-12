@@ -13,10 +13,13 @@ firebase.auth().useDeviceLanguage();
 export default class SignIn extends Component {
   constructor(props) {
     super(props);
+    this.state = { 
+      isSignedIn: false,
+      user: null
+    };
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  state = { isSignedIn: false }
   uiConfig = {
     signInFlow: "popup",
     signInOptions: [
@@ -31,9 +34,20 @@ export default class SignIn extends Component {
 
   componentDidMount = () => {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({ isSignedIn: !!user })
-      console.log("user", user)
-    })
+      this.setState({ 
+        isSignedIn: !!user,
+        user: !!null 
+      })
+      
+      if(user){
+        console.log("user", user);
+        firebase.auth().currentUser.getIdToken().then(idtoken =>{
+          console.log(idtoken);
+        }).catch(err=>{
+          console.log(err);
+        });
+      }  
+    });
   }
 
   async onSubmit(formData) {
@@ -62,8 +76,11 @@ export default class SignIn extends Component {
             {this.state.isSignedIn ? (
             <span>
                 <div>Signed In!</div>
-                <button onClick={() => firebase.auth().signOut()}>Sign out!</button>
-                <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
+                <button onClick={() => firebase.auth().signOut().then(
+                  this.setState.isSignedIn= false, this.setState.user= null)
+                }>Sign out!</button>
+                <h1>Welcome {this.setState.user= firebase.auth().currentUser.displayName}
+                {this.setState.isSignedIn=true}</h1>
                 
             </span>
             ) : (
