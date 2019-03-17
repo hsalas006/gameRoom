@@ -17,7 +17,7 @@ const Session = new Schema({
         require: false
     },
     games:{
-        type: [],
+        type: Object,
         require: false
     },
     level:{

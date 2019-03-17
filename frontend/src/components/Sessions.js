@@ -4,54 +4,42 @@ import {Table} from 'react-bootstrap';
 
 export default class Sessions extends Component{
     state = {
-        posts: [],
-        totalPosts: 0,
+        sessions: [],
+        totalSessions: 0,
       };
 
     componentDidMount() {
         fetch('URL')
           .then(res => {
             if (res.status !== 200) {
-              throw new Error('Failed to fetch user status.');
+              console.log('Carga de datos fallida.');
             }
             return res.json();
           })
           .then(resData => {
             this.setState({ status: resData.status });
           })
-          .catch(this.catchError);
+          .catch(err=>{console.log(err)});
     
-        this.loadPosts();
+        this.loadSessions();
       }
     
-      loadPosts = direction => {
-        if (direction) {
-          this.setState({ postsLoading: true, posts: [] });
-        }
-        let page = this.state.postPage;
-        if (direction === 'next') {
-          page++;
-          this.setState({ postPage: page });
-        }
-        if (direction === 'previous') {
-          page--;
-          this.setState({ postPage: page });
-        }
-        fetch('URL')
+      loadSessions(){
+        
+        fetch('http://localhost:8080/session/sessions')
           .then(res => {
             if (res.status !== 200) {
-              throw new Error('Failed to fetch posts.');
+              console.log('Error al cargar las sesiones.');
             }
             return res.json();
           })
           .then(resData => {
             this.setState({
-              posts: resData.posts,
-              totalPosts: resData.totalItems,
-              postsLoading: false
+              sessions: resData.sessions,
+              totalSessions: resData.totalItems,
             });
           })
-          .catch(this.catchError);
+          .catch(err=>{console.log(err)});
       };
 
     render(){

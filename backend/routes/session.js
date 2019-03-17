@@ -10,4 +10,6 @@ router.get('/sessions', sessionController.getSessions);
 
 router.get('/session/:idsession', sessionController.getSession);
 
+router.put('/session/:sessionId', sessionController.updateSession);
+
 module.exports = router;

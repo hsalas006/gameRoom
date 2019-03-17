@@ -8,11 +8,12 @@ export default class NewSession extends Component{
         
       this.state = { 
           validated: false,
-          name: null,
-          memory: 0,
-          othello: 0,
-          level: 0 
-
+          name: '',
+          IdPlayer1: '',
+          memory: '',
+          othello: '',
+          level: '', 
+          score: ''
         };
     }
   
@@ -35,7 +36,8 @@ export default class NewSession extends Component{
               IdPlayer2: null,
               memory: this.state.memory,
               othello: this.state.othello,
-              level: this.state.level
+              level: this.state.level,
+              score: this.state.score
           })
       });
     }

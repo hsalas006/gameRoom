@@ -13,7 +13,7 @@ exports.postSession = async(req, res, next)=>{
         IDplayer1,
         IDplayer2,
         games,
-        ĺevel,
+        level,
         score
     })
     session.save().then(result =>{
@@ -42,19 +42,6 @@ exports.getSessions = async(req, res, next)=>{
         .catch(err => {
             console.log(err);
         })
-    // if the response is positive
-    res.status(200).json({ 
-        sessions: [{
-            IDsession,
-            name,
-            IDplayer1,
-            IDplayer2,
-            games,
-            level,
-            score
-        }] 
-    });
-
 };
 
 exports.getSession = async(req, res, next)=>{
@@ -70,3 +57,35 @@ exports.getSession = async(req, res, next)=>{
             console.log('error al encontrar una sesion');
         })
 };
+
+exports.updateSession = (req, res, next)=>{
+    const sessionId = req.params.sessionId;
+    const name = req.body.name;
+    const IDplayer1 = req.body.IDplayer1;
+    const IDplayer2 = req.body.IDplayer2;
+    const games = req.body.games;
+    const level = req.body.level;
+    const score = req.body.score;
+    Session.findById(sessionId)
+        .then(session =>{
+            if(!session){
+                const error = new Error('No existe la sesion buscada.')
+                error.statusCode = 404;
+                throw error;
+            }
+            session.name = name;
+            session.IDplayer1 = IDplayer1;
+            session.IDplayer2 = IDplayer2;
+            session.games = games;
+            session.level = level;
+            session.score = score;
+            return session.save();
+        })
+        .then(result =>{
+            res.status(200).json({ message: 'Sesion modificada!', session: result});
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+   
+}
