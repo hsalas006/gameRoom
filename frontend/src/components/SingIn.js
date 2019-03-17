@@ -17,10 +17,15 @@ export default class SignIn extends Component {
       isSignedIn: false,
       user: null
     };
-    this.onSubmit = this.onSubmit.bind(this);
+    this.setUser = this.setUser.bind(this);
+  }
+
+  setUser(user) {
+    this.setState({ user })
   }
 
   uiConfig = {
+    
     signInFlow: "popup",
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -50,14 +55,12 @@ export default class SignIn extends Component {
     });
   }
 
-  async onSubmit(formData) {
+  /*async onSubmit(formData) {
     await this.props.signIn(formData);
-    if (!this.props.errorMessage) {
+     (!this.props.errorMessage) {
       this.props.history.push('/dashboard');
     }
-  }
-
-
+  }*/
 
   render() {
     return (
@@ -76,18 +79,19 @@ export default class SignIn extends Component {
             {this.state.isSignedIn ? (
             <span>
                 <div>Signed In!</div>
-                <button onClick={() => firebase.auth().signOut().then(
-                  this.setState.isSignedIn= false, this.setState.user= null)
+                <button onClick={() => firebase.auth().signOut() /*.then(
+                  this.setState.isSignedIn= false, this.setState.user= null)*/
                 }>Sign out!</button>
-                <h1>Welcome {this.setState.user= firebase.auth().currentUser.displayName}
+                <h1>Welcome {this.setState.user= firebase.auth().currentUser.displayName} -- {firebase.auth().currentUser.email} -- {firebase.auth().currentUser.uid}
                 {this.setState.isSignedIn=true}</h1>
                 
             </span>
             ) : (
-            <StyledFirebaseAuth
-                uiConfig={this.uiConfig}
+              <StyledFirebaseAuth 
+                uiCallback={ui => ui.disableAutoSignIn()} 
+                uiConfig={this.uiConfig} 
                 firebaseAuth={firebase.auth()}
-            />
+              />
             )}
             </div>
           </div>

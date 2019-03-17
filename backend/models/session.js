@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Session = new Schema({
-    IDsession:{
+    
+    name:{
         type: String,
-        require: true
+        require: false
     },
     IDplayer1:{
         type: String,
@@ -16,7 +17,11 @@ const Session = new Schema({
         require: false
     },
     games:{
-        type: String,
+        type: [],
+        require: false
+    },
+    level:{
+        type: Number,
         require: false
     },
     score:{

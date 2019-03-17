@@ -9,8 +9,12 @@ import * as serviceWorker from './serviceWorker';
 import App from './components/App';
 import SignIn from './components/SingIn';
 
-import Dashboard from './components/Dashboard';
+import Board from './components/Board';
 import reducers from './reducers';
+import Home from './components/Home';
+import Menu from './components/Menu';
+import NewSession from './components/NewSession';
+import Sessions from './components/Sessions';
 
 ReactDOM.render(
     <Provider store={createStore(reducers, {}, applyMiddleware(reduxThunk))}>
@@ -18,8 +22,10 @@ ReactDOM.render(
             <App>
                 <Route exact path="/" component={SignIn} />
                 <Route exact path="/signin" component={SignIn} />
-                <Route exact path="/dashboard" component={Dashboard} />
-
+                <Route exact path="/Menu" component={Menu} />
+                <Route exact path="/Newsession" component={NewSession} />
+                <Route exact path="/Sessions" component={Sessions} />
+                <Route exact path="/Board" component={Board} />
             </App>
         </BrowserRouter>
     </Provider>,

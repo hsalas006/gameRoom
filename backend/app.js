@@ -3,9 +3,13 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+
 const memoryRoutes = require('./routes/Memory');
 const othelloRoutes = require('./routes/Othello');
 const sessionRoutes = require('./routes/session');
+
+var serviceAccount = require('../gameroom-3127e-firebase-adminsdk-13fl3-e7d9af67b5.json');
+
 
 const app = express();
 
