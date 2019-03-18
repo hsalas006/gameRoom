@@ -9,8 +9,8 @@ export default class Menu extends Component{
         <div className="jumbotron">
                 <h1 className="display-5 text-center">Menu</h1>
              
-                    <Button variant="outline-primary" size="lg" block as={Link} to="/newsession">
-                        Nueva Sesion
+                    <Button variant="outline-primary" size="lg" block as={Link} to="/newsession" onClick>
+                        Nueva Sesion 
                     </Button>
               
                 <Button variant="outline-info" size="lg" block as={Link} to="/sessions">
