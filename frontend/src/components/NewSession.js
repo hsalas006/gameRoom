@@ -99,7 +99,7 @@ export default class NewSession extends Component{
                 </InputGroup.Prepend>
                 <Form.Control
                   type="number"
-                  placeholder="SessionName"
+                  placeholder="level"
                   aria-describedby="inputGroupPrepend"
                   required
                 />

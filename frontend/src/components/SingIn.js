@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import firebase from "firebase"
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import Menu from '../components/Menu';
 
 firebase.initializeApp({
     apiKey: "AIzaSyA0kHfgbRI6PcZgkiCU-HC1fbHrqPfguec",
@@ -14,8 +15,10 @@ export default class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      isSignedIn: false,
-      user: null
+      idToken: null,
+      userId: null,
+      email: null,
+      name: null
     };
     this.setUser = this.setUser.bind(this);
   }
@@ -37,67 +40,73 @@ export default class SignIn extends Component {
     }
   }
 
-  componentDidMount = () => {
+  loadlogin(){
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({ 
-        isSignedIn: !!user,
-        user: !!null 
-      })
-      
-      if(user){
-        console.log("user", user);
-        firebase.auth().currentUser.getIdToken().then(idtoken =>{
-          console.log(idtoken);
-        }).catch(err=>{
-          console.log(err);
+      if(!user){
+        console.log('error no hay usuario registrado');
+        return
+      }
+      firebase.auth().currentUser.getIdToken().then(token =>{
+          
+        this.setState({
+          idToken: token.toString(),
+          email: firebase.auth().currentUser.email,
+          name: firebase.auth().currentUser.displayName
         });
-      }  
+        console.log(this.state.idToken,':::>>');
+      })
+        .catch(err=>{
+        console.log(err);
+      }); 
     });
   }
 
-  /*async onSubmit(formData) {
-    await this.props.signIn(formData);
-     (!this.props.errorMessage) {
-      this.props.history.push('/dashboard');
-    }
-  }*/
+  componentDidMount = () => {
+    
+    firebase.auth().signOut().then(()=>{
+      console.log('>>> SingOut');
+      this.state = { 
+        idToken: null,
+        userId: null,
+        email: null,
+        name: null
+      };
+    });
+    this.loadlogin();
+  }
+
 
   render() {
     return (
-    <div className="jumbotron">
-    <h1 className="display-5 text-center">Proyecto #1 - Diseño de Software</h1>
-    <p className="lead text-center">Plataforma de juegos de mesa que permite tener sesiones de juego de forma remota</p>
-    <hr className="my-4"></hr>
-      <div className="row">
-        <div className="col">
-          <div className="text-center">
-            <div className="alert alert-primary">
-              Acceder por medio de Redes Sociales
-            </div>
 
-            <div className="App">
-            {this.state.isSignedIn ? (
-            <span>
-                <div>Signed In!</div>
-                <button onClick={() => firebase.auth().signOut() /*.then(
-                  this.setState.isSignedIn= false, this.setState.user= null)*/
-                }>Sign out!</button>
-                <h1>Welcome {this.setState.user= firebase.auth().currentUser.displayName} -- {firebase.auth().currentUser.email} -- {firebase.auth().currentUser.uid}
-                {this.setState.isSignedIn=true}</h1>
-                
+      <div className="App">
+        {this.state.idToken ? (
+            <span>{console.log('****',this.state.userId)}
+              <Menu user={this.state.user}></Menu>
             </span>
-            ) : (
-              <StyledFirebaseAuth 
-                uiCallback={ui => ui.disableAutoSignIn()} 
-                uiConfig={this.uiConfig} 
-                firebaseAuth={firebase.auth()}
-              />
-            )}
+          ) : (
+            <div className="jumbotron">
+            <h1 className="display-5 text-center">Proyecto #1 - Diseño de Software</h1>
+            <p className="lead text-center">Plataforma de juegos de mesa que permite tener sesiones de juego de forma remota</p>
+            <hr className="my-4"></hr>
+              <div className="row">
+                <div className="col">
+                  <div className="text-center">
+                    <div className="alert alert-primary">
+                      Acceder por medio de Redes Sociales
+                    </div>
+                    <StyledFirebaseAuth 
+                      uiCallback={ui => ui.disableAutoSignIn()} 
+                      uiConfig={this.uiConfig} 
+                      firebaseAuth={firebase.auth()}   
+                    />
+                    {this.loadlogin()}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}        
       </div>
-    </div>
     );
   }
 }

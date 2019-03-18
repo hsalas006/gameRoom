@@ -3,15 +3,38 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-
 const memoryRoutes = require('./routes/Memory');
 const othelloRoutes = require('./routes/Othello');
 const sessionRoutes = require('./routes/session');
 
-var serviceAccount = require('../gameroom-3127e-firebase-adminsdk-13fl3-e7d9af67b5.json');
-
-
 const app = express();
+
+// Settings 
+app.set('port', process.env.PORT || 8080)
+
+// Middlewares
+app.use(bodyParser.json());
+app.use(cors());
+//app.use(authVerification.isAuthorized);
+
+// Routes
+app.use('/memory',memoryRoutes);
+app.use('/othello',othelloRoutes);
+app.use('/session',sessionRoutes);
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+    const err = new Error('Archivos no encontrados');
+    err.status = 404;
+    next(err);
+});
+  
+// error handler
+// define as the last app.use callback
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.send(err.message);
+});
 
 // Database initialization  
 mongoose
@@ -20,24 +43,10 @@ mongoose
     )
     .then(result =>{
         console.log('Conexion exitosa a la base de datos');
+        // Start the server
+        app.listen(app.get('port'), () => {
+            console.log(`Servidor en el puerto ${app.get('port')}`);
+        });
     })
     .catch(err => console.log('>>>>', err));
 
-// Settings 
-app.set('port', process.env.PORT || 8080)
-
-// Middlewares
-app.use(bodyParser.json());
-app.use(cors());
-
-// Routes
-//app.use('/users', userRoutes);
-app.use('/memory', memoryRoutes);
-app.use('/othello', othelloRoutes);
-app.use('/session', sessionRoutes);
-
-
-// Start the server
-app.listen(app.get('port'), () => {
-    console.log(`Server on port ${app.get('port')}`);
-});

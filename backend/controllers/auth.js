@@ -1,29 +1,36 @@
 const admin = require('firebase-admin');
-const express = require('express');
 
-const User = require('../models/user');
-
-const router = express.Router();
-
-var serviceAccount = require('../../gameroom-3127e-firebase-adminsdk-13fl3-e7d9af67b5.json');
+const serviceAccount = require('../../gameroom-3127e-firebase-adminsdk-13fl3-e7d9af67b5.json');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://gameroom-3127e.firebaseio.com'
 });
-  
 
-exports.getToken = (req, res, next) =>{
-    const idToken = req.body.idToken;
+module.exports = (req, res, next) =>{
+    const idToken = req.get('Authorization');
 
+    if(!idToken){
+        const error = new Error('Sin autenticacion.');
+        error .statusCode = 401;
+        throw error;
+    }
+    
     admin.auth().verifyIdToken(idToken)
         .then(decodedToken => {
-            var uid = decodedToken.uid;
+            if (!decodedToken){
+                const error = new Error('Usuario no autenticado.');
+                error.statusCode = 401;
+                throw error;
+            }
+            //var uid = decodedToken.uid;
             console.log(uid);
-            res.status(200).json({user: uid});
+            req.userId = decodedToken.uid
+            next();
             // ...
         }).catch(error => {
             // Handle error
             console.log(error);
+            next(error);
         });
 };
