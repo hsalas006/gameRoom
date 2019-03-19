@@ -1,4 +1,5 @@
 const Othello = require('../models/othello');
+const io = require('../socket');
 
 exports.postGame = async(req, res, next)=>{
 

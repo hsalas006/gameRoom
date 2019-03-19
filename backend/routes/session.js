@@ -5,12 +5,12 @@ const isAuth = require('../controllers/auth');
 
 const router = express.Router();
 
-router.post('/newsession', isAuth, sessionController.postSession);
+router.post('/newsession', sessionController.postSession);
 
-router.get('/sessions', isAuth, sessionController.getSessions);
+router.get('/sessions', sessionController.getSessions);
 
-router.get('/session/:idsession', isAuth, sessionController.getSession);
+router.get('/session/:idsession', sessionController.getSession);
 
-router.put('/session/:sessionId', isAuth, sessionController.updateSession);
+router.put('/session/:sessionId', sessionController.updateSession);
 
 module.exports = router;

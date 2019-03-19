@@ -44,8 +44,12 @@ mongoose
     .then(result =>{
         console.log('Conexion exitosa a la base de datos');
         // Start the server
-        app.listen(app.get('port'), () => {
+        const server = app.listen(app.get('port'), () => {
             console.log(`Servidor en el puerto ${app.get('port')}`);
+        });
+        const io = require('./socket').init(server);
+        io.on('connection', socket =>{
+            console.log('Client connected!!');
         });
     })
     .catch(err => console.log('>>>>', err));

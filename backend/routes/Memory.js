@@ -5,13 +5,13 @@ const isAuth = require('../controllers/auth');
 
 const router = express.Router();
 
-router.post('/memoryGame', isAuth, memoryController.postGame);
+router.post('/memoryGame',  memoryController.postGame);
 
-router.get('/memoryGame', isAuth, memoryController.getGames);
+router.get('/memoryGame',  memoryController.getGames);
 
-router.get('/memoryGame/:memoryId', isAuth, memoryController.getGame);
+router.get('/memoryGame/:memoryId',  memoryController.getGame);
 
-router.put('memoryGame/:memoryId', isAuth, memoryController.updateGame);
+router.put('memoryGame/:memoryId',  memoryController.updateGame);
 
 
 module.exports = router;
