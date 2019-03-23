@@ -47,7 +47,7 @@ exports ={
         }
         
         // down-up  
-        up = downUp(row - 1, col, player, player2, size - 1);
+        up = downUp(row - 1, col, player, player2);
 
         // up-down  
         down = upDown(row - 1, col, player, player2, size - 1);
@@ -231,3 +231,80 @@ upDownRight = (matrix, row, col, player1, player2, size) => {
     }
     return check;
 }
+/*
+// function to check the move up-down-right 
+validMove = (matrix, row, col, player1, player2, size) => {
+    var check = false;
+    var destRow = row;
+    var destCol = col;
+    if (matrix[row][col] == player2) {
+        switch (move){
+            case 'up':
+                while ((matrix[destRow][destCol] == player2) & (destRow > 0)) {
+                    destRow--;
+                }
+    
+                if (matrix[destRow][destCol] == player1) {
+                    check = true;
+                }
+                else{
+                    destRow = row;
+                    destCol = col;
+                }
+                break;
+            case 'down':
+                while ((matrix[destRow][destCol] == player2) & (destRow < size)) {
+                    destRow++;
+                }
+                if (matrix[destRow][destCol] == player1) {
+                    check = true;
+                }
+                else{
+                    destRow = row;
+                    destCol = col;
+                }
+                break;
+            case 'left':
+                while ((matrix[destRow][destCol] == player2) & (destRow > 0) & (destCol > 0)) {
+                    destRow++;
+                    destCol++;
+                }
+                if (matrix[destRow][destCol] == player1) {
+                    check = true;
+                }
+                else{
+                    destRow = row;
+                    destCol = col;
+                }
+                break;
+            case 'right':
+                while ((matrix[destRow][destCol] == player2) & (destRow > 0) & (destCol < size)) {
+                    destRow--;
+                    destCol++;
+                }
+                if (matrix[destRow][destCol] == player1) {
+                    check = true;
+                }
+                else{
+                    destRow = row;
+                    destCol = col;
+                }
+                break;
+        }
+        while ((matrix[row][col] == player2) & (row < size) & (col < size)) {
+            row++;
+            col++;
+        }
+        if (matrix[row][col] == player1) {
+            row--;
+            col--;
+            while (matrix[row][col] == player2) {
+                matrix[row][col] = player1;
+                check = true;
+                row--;
+                col--;
+            }
+        }
+    }
+    return check;
+}*/

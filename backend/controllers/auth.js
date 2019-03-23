@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 
-const serviceAccount = require('../../../gameroom-3127e-firebase-adminsdk-13fl3-e7d9af67b5.json');
+const serviceAccount = require('../../../gameroom-3127e-firebase-adminsdk-13fl3-1b12e3bd87.json');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
