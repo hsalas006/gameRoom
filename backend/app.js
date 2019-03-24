@@ -22,6 +22,7 @@ app.use('/memory',memoryRoutes);
 app.use('/othello',othelloRoutes);
 app.use('/session',sessionRoutes);
 
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     const err = new Error('Archivos no encontrados');

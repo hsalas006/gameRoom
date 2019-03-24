@@ -5,8 +5,9 @@ const io = require('../socket').getIO();
 exports.postGame = async(req, res, next)=>{
 
   const matrix = logic.createBoard(req.body.size);
+  console.log('>>>>', matrix);
   const othello = new Othello({
-    IDgame : req.body.IDgame,
+
     IDplayer1 : req.body.IDplayer1,
     IDplayer2 : req.body.IDplayer2,
     matrix : matrix,
@@ -15,7 +16,7 @@ exports.postGame = async(req, res, next)=>{
     score : 0,
     IDsession : req.body.IDsession
   })
-  
+  console.log('----', othello)
   othello
     .save()
     .then(result =>{
@@ -29,12 +30,12 @@ exports.postGame = async(req, res, next)=>{
     });
 };
 
-exports.getGames = (req, res, next) => {
-  Memory.find()
+exports.getGames = async(req, res, next) => {
+  Othello.find()
     .then(games => {
       res
         .status(200)
-        .json({ message: 'Fetched games successfully.', games: games });
+        .json({ message: 'Juegos encontrados exitosamente.', games: games });
     })
     .catch(err => {
       if (!err.statusCode) {
@@ -44,16 +45,16 @@ exports.getGames = (req, res, next) => {
     });
 };
 
-exports.getGame = (req, res, next) => {
+exports.getGame = async(req, res, next) => {
   const othelloId = req.params.othelloId;
   Othello.findById(othelloId)
     .then(game => {
       if (!game) {
-        const error = new Error('Could not find game.');
+        const error = new Error('No se puede encontrar el juego.');
         error.statusCode = 404;
         throw error;
       }
-      res.status(200).json({ message: 'game fetched.', game: game });
+      res.status(200).json({ message: 'Juego encontrado exitosamente!!...', game: game });
     })
     .catch(err => {
       if (!err.statusCode) {
@@ -63,22 +64,25 @@ exports.getGame = (req, res, next) => {
     });
 };
 
-exports.playGame = (req,res,next) =>{
-  const idGame = req.body.idGame;
+exports.playGame = async(req,res,next) =>{
+  const idGame = req.params.idGame;
   const row = req.body.row;
   const col = req.body.col;
   let matrix = req.body.matrix;
   let player = req.body.turn;
   const size = req.body.size;
+  let valid;
 
-  let valid = logic.move(matrix,row, col, player, size);
-  matrix = valid.matrix;
+  matrix, valid = logic.move(matrix,row, col, player, size);
 
+  console.log(matrix, '*********')
   // if the move is valid 
-  if(valid.validate){
+  console.log(valid)
+  if(valid){
     // calc the score
     let score = logic.score(matrix, size);
     // find and save the info in the db
+    console.log(score, '------')
     Othello.findById(idGame)
       .then(game => {
         if (!game) {
@@ -89,7 +93,7 @@ exports.playGame = (req,res,next) =>{
         if(player === 1){
           game.turn = 2;
         }else game.turn = 1;
-        
+
         game.score = score;
         game.matrix = matrix;
         return game.save();

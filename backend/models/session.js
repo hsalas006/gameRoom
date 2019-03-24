@@ -20,7 +20,7 @@ const Session = new Schema({
         type: Object,
         require: false
     },
-    level:{
+    boardSize:{
         type: Number,
         require: false
     },
@@ -28,6 +28,6 @@ const Session = new Schema({
         type: Number,
         require: false
     }
-}, {timestamps: true});
+});
 
 module.exports = mongoose.model('Session', Session);

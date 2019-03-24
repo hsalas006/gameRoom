@@ -13,4 +13,6 @@ router.get('/session/:idsession', sessionController.getSession);
 
 router.put('/session/:sessionId', sessionController.updateSession);
 
+router.put('/addPlayer/:sessionId', sessionController.addPlayer);
+
 module.exports = router;

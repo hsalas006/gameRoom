@@ -16,7 +16,7 @@ const othelloSchema = new Schema({
         require: false
     },
     matrix:{
-        type: [],
+        type: [[]],
         require: true
     },
     turn:{
