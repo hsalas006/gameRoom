@@ -3,7 +3,7 @@
 // player vs player 
 // player vs pc
 
-exports ={
+exports = {
     // function to create the matrix board of the game
     createBoard: (size) =>{
         let matrix = new Array(size);
@@ -25,6 +25,19 @@ exports ={
         }
         // return the matrix with the first 2 chips 
         return matrix;
+    },
+    //function to check if the move is valid
+    move: (matrix,row, col, player, size) => {
+        let valid = false;
+
+        if (matrix[row][col] == 0) {
+            valid = chackMove(row, col, player, size);
+
+            if (player == true) {
+                matrix[row][col] = player;
+                return {matrix:matrix,validate:true};
+            } 
+        }
     },
 
     // function to call each possible way to check the move
@@ -81,8 +94,8 @@ exports ={
     // function to calculate the actual score of the game
     score: (matrix, size) =>{
         let score = [0,0];
-        for (i = 0; i < tam; i++) {
-            for (j = 0; j < tam; j++) {
+        for (i = 0; i < size; i++) {
+            for (j = 0; j < size; j++) {
                 if (matrix[i][j] == 1) {
                     score[0]+=1;
                 } 

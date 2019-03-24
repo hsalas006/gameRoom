@@ -36,21 +36,31 @@ app.use(function (err, req, res, next) {
     res.send(err.message);
 });
 
-// Database initialization  
+// Database initialization, Server listener and socket init
 mongoose
     .connect(
         'mongodb+srv://harold:hsalas006@cluster0-yxsfo.mongodb.net/gameRoom?retryWrites=true'
     )
     .then(result =>{
-        console.log('Conexion exitosa a la base de datos');
+        console.log('Conexion exitosa a la base de datos...');
+        
         // Start the server
         const server = app.listen(app.get('port'), () => {
-            console.log(`Servidor en el puerto ${app.get('port')}`);
+            console.log(`Servidor en el puerto ${app.get('port')}...`);
         });
+        // webSockets start
         const io = require('./socket').init(server);
+
+        /*
+        // client side code
+        var socket = io.connect();
+        socket.emit("create", "room1");
+        */
         io.on('connection', socket =>{
+            socket.on('create', room=>{
+                socket.join(room);
+            })
             console.log('Client connected!!');
         });
     })
     .catch(err => console.log('>>>>', err));
-

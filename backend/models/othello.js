@@ -23,6 +23,10 @@ const othelloSchema = new Schema({
         type: Object,
         require: false
     },
+    size:{
+        type: Number,
+        require: true
+    },
     score:{
         type: Number,
         require: false

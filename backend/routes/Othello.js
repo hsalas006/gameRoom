@@ -13,5 +13,6 @@ router.get('/othelloGames/:othelloId', othelloController.getGame);
 
 router.put('othelloGames/:othelloId', othelloController.updateGame);
 
+router.put('othelloGames/:othelloId', othelloController.playGame);
 
 module.exports = router;
