@@ -11,7 +11,7 @@ import SignIn from './components/SingIn';
 
 import Board from './components/Board';
 import reducers from './reducers';
-import Home from './components/Home';
+import Square from './components/Square';
 import Menu from './components/Menu';
 import NewSession from './components/NewSession';
 import Sessions from './components/Sessions';
@@ -26,6 +26,7 @@ ReactDOM.render(
                 <Route exact path="/Newsession" component={NewSession} />
                 <Route exact path="/Sessions" component={Sessions} />
                 <Route exact path="/Board" component={Board} />
+                <Route exact path="/Square" component={Square} />
             </App>
         </BrowserRouter>
     </Provider>,

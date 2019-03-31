@@ -64,6 +64,7 @@ export default class Sessions extends Component{
                     </Table>
                     { this.state.selected
                       ? <div> 
+                          <h4>Session Seleccionada: </h4>
                           <div className="alert alert-success" role="alert">
                             {' Sesion'+ ': ' + this.state.selectedSess.name + ' : ID: ' + this.state.selectedSess._id}
                             <button type="button" className="btn btn-outline-success btn-lg btn-block">Unirse a la Sesion</button>
