@@ -10,36 +10,48 @@ export default class NewSession extends Component{
           validated: false,
           name: '',
           IdPlayer1: '',
-          memory: '',
-          othello: '',
-          level: '', 
-          score: ''
+          memory: 0,
+          othello: 0,
+          boardSize: 0, 
+          score: {player1: 0, player: 0}
         };
     }
   
     handleSubmit(event) {
+      event.preventDefault();
       const form = event.currentTarget;
       if (form.checkValidity() === false) {
         event.preventDefault();
         event.stopPropagation();
       }
-      this.setState({ validated: true });
-      console.log(event, '<<<<<<<<<<<<<<<<<');
-      fetch('http://localhost:8080/session/newsession', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              name: this.state.name,
-              IdPlayer1: this.state.IdPlayer1,
-              IdPlayer2: null,
-              memory: this.state.memory,
-              othello: this.state.othello,
-              level: this.state.level,
-              score: this.state.score
-          })
-      });
+      else{
+      
+        this.setState({ 
+          name: event.target.elements.name.value,
+          IdPlayer1: 'event.target.elements.name.value',
+          memory: event.target.elements.memory.value,
+          othello: event.target.elements.othello.value,
+          boardSize: event.target.elements.size.value
+        });
+        console.log(event.target.elements.name.value, '<<<<<<<<<<<<<<<<<');
+        fetch('http://localhost:8080/session/newsession', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: event.target.elements.name.value,
+                IdPlayer1: '12345678',
+                IdPlayer2: null,
+                games: [event.target.elements.memory.value, event.target.elements.othello.value],
+                boardSize: event.target.elements.size.value,
+                score: 0
+            })
+        }).then(res=>{
+              console.log(res.json());
+        });  
+      }
+      
     }
   
     render() {
@@ -65,6 +77,7 @@ export default class NewSession extends Component{
                   type="text"
                   placeholder="SessionName"
                   aria-describedby="inputGroupPrepend"
+                  name="name"
                   required
                 />
                 <Form.Control.Feedback type="invalid">
@@ -77,14 +90,14 @@ export default class NewSession extends Component{
           <Form.Row>
             <Form.Group md="6" controlId="validationMemory">
               <Form.Label>Juegos de Memoria</Form.Label>
-              <Form.Control type="number" placeholder="Memory" required />
+              <Form.Control type="number" placeholder="Memory" name="memory" required />
               <Form.Control.Feedback type="invalid">
                 determine la cantidad de juegos de memoria.
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group md="6" controlId="validationOthello">
               <Form.Label>Juegos de Othelo</Form.Label>
-              <Form.Control type="number" placeholder="Othello" required />
+              <Form.Control type="number" placeholder="Othello" name="othello" required />
               <Form.Control.Feedback type="invalid">
                 determine la cantidad de juegos de othelo.
               </Form.Control.Feedback>
@@ -92,19 +105,20 @@ export default class NewSession extends Component{
           </Form.Row>
           <Form.Row>
           <Form.Group md="6" controlId="validationSessionname">
-              <Form.Label>Nivel de Juego</Form.Label>
+              <Form.Label>Tamaño del Tablero</Form.Label>
               <InputGroup>
                 <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroupPrepend">lvl</InputGroup.Text>
+                  <InputGroup.Text id="inputGroupPrepend">x</InputGroup.Text>
                 </InputGroup.Prepend>
                 <Form.Control
                   type="number"
                   placeholder="level"
                   aria-describedby="inputGroupPrepend"
+                  name="size"
                   required
                 />
                 <Form.Control.Feedback type="invalid">
-                  Escoja el nivel de la sesion.
+                  Tamaño del tablero de juegos.
                 </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>

@@ -6,25 +6,15 @@ export default class Sessions extends Component{
     state = {
         sessions: [],
         totalSessions: 0,
+        selectedSess: '',
+        selected: false
       };
 
     componentDidMount() {
-        fetch('URL')
-          .then(res => {
-            if (res.status !== 200) {
-              console.log('Carga de datos fallida.');
-            }
-            return res.json();
-          })
-          .then(resData => {
-            this.setState({ status: resData.status });
-          })
-          .catch(err=>{console.log(err)});
-    
         this.loadSessions();
       }
     
-      loadSessions(){
+    loadSessions(){
         
         fetch('http://localhost:8080/session/sessions')
           .then(res => {
@@ -42,31 +32,46 @@ export default class Sessions extends Component{
           .catch(err=>{console.log(err)});
       };
 
+    handleClick(e) {
+        console.log('---->>>',e);
+        let sess = this.state.sessions[e];
+        console.log(sess);
+        this.setState({selectedSess: sess, selected: true});
+
+      }
+
     render(){
         return(
             <div className="jumbotron">
                 <h2 className="display-5 text-center">Sessiones Disponibles:</h2>
-                <Table striped bordered hover size="sm">
+                <Table striped bordered hover size="sm" >
                     <thead>
-                        <tr>
+                        <tr > 
                         <th>Sesion</th>
                         <th>Nivel</th>
-                        <th>Disponibilidad</th>
+                        <th>Creator</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                        <td>#Mark</td>
-                        <td>1</td>
-                        <td>libre</td>
-                        </tr>
-                        <tr>
-                        <td>#Jacob</td>
-                        <td>2</td>
-                        <td>ocupado</td>
-                        </tr>
-                    </tbody>
-                    </Table>;
+                    <tbody>{this.state.sessions.map((item, key) => {
+                        return (
+                            <tr onClick={(e)=>this.handleClick(key)} key = {key}>
+                                <td>{item.name}</td>
+                                <td>{item.boardSize}</td>
+                                <td>{item.IDplayer1}</td>
+                            </tr>
+                          )
+                      })}</tbody>
+                    </Table>
+                    { this.state.selected
+                      ? <div> 
+                          <div className="alert alert-success" role="alert">
+                            {' Sesion'+ ': ' + this.state.selectedSess.name + ' : ID: ' + this.state.selectedSess._id}
+                            <button type="button" className="btn btn-outline-success btn-lg btn-block">Unirse a la Sesion</button>
+                          </div>
+                          
+                        </div>
+                      : null
+                    }  
             </div>  
         );
     }

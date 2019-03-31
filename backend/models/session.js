@@ -17,7 +17,7 @@ const Session = new Schema({
         require: false
     },
     games:{
-        type: Object,
+        type: [],
         require: false
     },
     boardSize:{
@@ -25,7 +25,7 @@ const Session = new Schema({
         require: false
     },
     score:{
-        type: Number,
+        type: {},
         require: false
     }
 });

@@ -2,11 +2,11 @@ const Session = require('../models/session');
 
 exports.postSession = async(req, res, next)=>{
     const name = req.body.name;
-    const IDplayer1 = req.body.IDplayer1;
+    const IDplayer1 = req.body.IdPlayer1;
     const IDplayer2 = null;
     const games = req.body.games;
     const boardSize = req.body.boardSize;
-    const score = 0;
+    const score = {player1: 0, player2: 0};
     
     const session = new Session({
         name: name,
@@ -14,7 +14,7 @@ exports.postSession = async(req, res, next)=>{
         IDplayer2: null,
         games: games,
         boardSize: boardSize,
-        score: 0
+        score: score
     })
     console.log(IDplayer1);
     session.save().then(result =>{
