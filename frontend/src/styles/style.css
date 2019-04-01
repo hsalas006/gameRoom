@@ -1,4 +1,4 @@
-.grid {
+.gridGame {
     margin: 0 auto;
     width: 80vw;
     max-width: 60vh;
@@ -6,24 +6,24 @@
     max-height: 60vh;
     font-size: 1rem;
 }
-.row {
+.rowGame {
     display: flex;
 }
-.box {
+.boxGame {
     background: rgb(50, 171, 175);
-    margin: 5px;
+    margin: 1px;
     color: white;
     font-weight: bold;
     flex: 1 0 auto;
     position: relative;
 }
-.box:after {
+.boxGame:after {
     content: "";
     float:left;
     display: block;
     padding-top: 100%;
 }
-.box .inner {
+.boxGame .innerGame {
     position: absolute;
     left: 0;
     right: 0;
