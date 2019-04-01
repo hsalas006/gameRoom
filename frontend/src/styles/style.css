@@ -33,3 +33,9 @@
     align-items: center;
     justify-content: center;
 }
+.pic {
+    margin: 1px;
+    font-weight: bold;
+    flex: 1 0 auto;
+    position: relative;
+}
