@@ -43,7 +43,16 @@ export default class NewSession extends Component{
                 name: event.target.elements.name.value,
                 IdPlayer1: '12345678',
                 IdPlayer2: null,
-                games: [event.target.elements.memory.value, event.target.elements.othello.value],
+                games: { 
+                  othello: {
+                    num: event.target.elements.memory.value,
+                    idGames: []
+                  }, 
+                  memory: {
+                    num: event.target.elements.othello.value,
+                    idGames: []
+                  }
+                },
                 boardSize: event.target.elements.size.value,
                 score: 0
             })
@@ -131,6 +140,7 @@ export default class NewSession extends Component{
             />
           </Form.Group>
           <Button variant="primary" size="lg" type="submit">Crear Sesion</Button>
+          <a href="/Menu" className="btn btn-secondary btn-lg">Volver</a>
           </Col>
           </div>
         </Form>

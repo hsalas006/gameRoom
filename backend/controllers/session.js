@@ -5,6 +5,7 @@ exports.postSession = async(req, res, next)=>{
     const IDplayer1 = req.body.IdPlayer1;
     const IDplayer2 = null;
     const games = req.body.games;
+    const currentGame = null;
     const boardSize = req.body.boardSize;
     const score = {player1: 0, player2: 0};
     
@@ -13,6 +14,7 @@ exports.postSession = async(req, res, next)=>{
         IDplayer1: IDplayer1,
         IDplayer2: null,
         games: games,
+        currentGame: currentGame,
         boardSize: boardSize,
         score: score
     })
@@ -83,6 +85,7 @@ exports.updateSession = (req, res, next)=>{
     const IDplayer1 = req.body.IDplayer1;
     const IDplayer2 = req.body.IDplayer2;
     const games = req.body.games;
+    const currentGame = req.body.currentGame;
     const boardSize = req.body.boardSize;
     const score = req.body.score;
     Session.findById(sessionId)
@@ -96,6 +99,7 @@ exports.updateSession = (req, res, next)=>{
             session.IDplayer1 = IDplayer1;
             session.IDplayer2 = IDplayer2;
             session.games = games;
+            session.currentGame = currentGame;
             session.boardSize = boardSize;
             session.score = score;
             return session.save();

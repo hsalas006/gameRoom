@@ -1,8 +1,6 @@
 import React from 'react';
-//import React and Square component
 import Square from './Square';
 
-//main board component with game logic
 export default class Board extends React.Component{
   constructor(props){
     super(props);

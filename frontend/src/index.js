@@ -15,6 +15,8 @@ import Square from './components/Square';
 import Menu from './components/Menu';
 import NewSession from './components/NewSession';
 import Sessions from './components/Sessions';
+import Session from './components/Session';
+
 
 ReactDOM.render(
     <Provider store={createStore(reducers, {}, applyMiddleware(reduxThunk))}>
@@ -25,6 +27,7 @@ ReactDOM.render(
                 <Route exact path="/Menu" component={Menu} />
                 <Route exact path="/Newsession" component={NewSession} />
                 <Route exact path="/Sessions" component={Sessions} />
+                <Route exact path="/Session" component={Session} idSession={'5ca11ed6e724ce329fd47086'}/>
                 <Route exact path="/Board" component={Board} />
                 <Route exact path="/Square" component={Square} />
             </App>

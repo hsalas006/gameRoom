@@ -1,17 +1,25 @@
 
 import React, { Component } from 'react';
 import {Table} from 'react-bootstrap';
+import Session from './Session';
 
 export default class Sessions extends Component{
-    state = {
+  constructor(props){
+    super(props);
+    this.state = {
         sessions: [],
         totalSessions: 0,
         selectedSess: '',
         selected: false
       };
+      this.displaySession = this.displaySession.bind(this);
+      this.loadSessions = this.loadSessions.bind(this);
+  }
+    
 
     componentDidMount() {
         this.loadSessions();
+        
       }
     
     loadSessions(){
@@ -32,12 +40,17 @@ export default class Sessions extends Component{
           .catch(err=>{console.log(err)});
       };
 
+
     handleClick(e) {
         console.log('---->>>',e);
         let sess = this.state.sessions[e];
         console.log(sess);
         this.setState({selectedSess: sess, selected: true});
 
+      } 
+      displaySession(){
+        let path = `/session`;
+        this.props.history.push({pathname: path, state: {idSession: this.state.selectedSess._id}});  
       }
 
     render(){
@@ -50,6 +63,8 @@ export default class Sessions extends Component{
                         <th>Sesion</th>
                         <th>Nivel</th>
                         <th>Creator</th>
+                        <th>Othello</th>
+                        <th>Memoria</th>
                         </tr>
                     </thead>
                     <tbody>{this.state.sessions.map((item, key) => {
@@ -58,6 +73,8 @@ export default class Sessions extends Component{
                                 <td>{item.name}</td>
                                 <td>{item.boardSize}</td>
                                 <td>{item.IDplayer1}</td>
+                                <td>{item.games.othello.num}</td>
+                                <td>{item.games.memory.num}</td>
                             </tr>
                           )
                       })}</tbody>
@@ -67,8 +84,9 @@ export default class Sessions extends Component{
                           <h4>Session Seleccionada: </h4>
                           <div className="alert alert-success" role="alert">
                             {' Sesion'+ ': ' + this.state.selectedSess.name + ' : ID: ' + this.state.selectedSess._id}
-                            <button type="button" className="btn btn-outline-success btn-lg btn-block">Unirse a la Sesion</button>
+                            <button type="button" className="btn btn-outline-success btn-lg btn-block" onClick={this.displaySession}>Unirse a la Sesion</button>
                           </div>
+                          <a href="/Menu" className="btn btn-secondary">Volver</a>
                           
                         </div>
                       : null
