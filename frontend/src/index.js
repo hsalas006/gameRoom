@@ -29,6 +29,8 @@ ReactDOM.render(
                 <Route exact path="/Sessions" component={Sessions} />
                 <Route exact path="/Session" component={Session} idSession={'5ca11ed6e724ce329fd47086'}/>
                 <Route exact path="/Board" component={Board} />
+                <Route exact path="/memory/:id" component={Board} />
+                <Route exact path="/othello/:id" component={Board} />
                 <Route exact path="/Square" component={Square} />
             </App>
         </BrowserRouter>

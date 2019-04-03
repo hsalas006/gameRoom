@@ -9,9 +9,9 @@ router.post('/newsession', sessionController.postSession);
 
 router.get('/sessions', sessionController.getSessions);
 
-router.get('/session/:idsession', sessionController.getSession);
+router.get('/:idsession', sessionController.getSession);
 
-router.put('/session/:sessionId', sessionController.updateSession);
+router.put('/:sessionId', sessionController.updateSession);
 
 router.put('/addPlayer/:sessionId', sessionController.addPlayer);
 

@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const othelloSchema = new Schema({
-    gameID:{
+    
+    type:{
         type: String,
         require: true
     },

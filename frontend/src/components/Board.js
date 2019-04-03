@@ -6,11 +6,11 @@ export default class Board extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      
+      game: this.props.location.state.game,
       pic:'',
       'isWhite':true,
       
-      grid:Array(8).fill().map(x => Array(8).fill("+")),
+      grid: this.props.location.state.game.matrix,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -18,20 +18,18 @@ export default class Board extends React.Component{
   }
 
 
-  handleReset(){
+  drawBoard(){
     
   }
 
   handleClick(x,y){
     console.log('x--> ',x,'y--> ',y);
-    this.setState({pic: 'https://pngimage.net/wp-content/uploads/2018/05/bola-preta-png-5.png'})
 
   }
   render(){
-    const img = <img style={{width: 50, height: 50}} src='https://pngimage.net/wp-content/uploads/2018/05/bola-preta-png-5.png'/>;
-    const white = <img style={{width: 50, height: 50}} src='https://wwww.ishaanbhola.com/d/item/white-circle-pngc09-4dd3-a6e5-e4a33d437599/'/>;
+    const black = <img className="pic2" src='https://pngimage.net/wp-content/uploads/2018/05/bola-preta-png-5.png'/>;
+    const white = <img className="pic1" src='https://cdn131.picsart.com/278213248025211.png'/>;
 
-    
 
     
     const g = this.state.grid;
@@ -39,16 +37,36 @@ export default class Board extends React.Component{
     const board = g.map((row, i) => { return (
       <div className="rowGame" key={"row_"+i}>
         {row.map((col, j) => {
+          switch(col){
             
-            return (
+            case 1:{
+              return (
                 <div className="boxGame" key={i+'_'+j} data-index={i+'_'+j} onClick={()=>this.handleClick(i,j)}>
-                  <div className= "innerGame" key={i+'*'+j}><img style={{width: 50, height: 50}} src={this.state.pic}/>
+                  <div className= "innerGame" key={i+'*'+j}>{black}
                   </div>
                 </div>
-                )
-              }
-            )
+              )
+            }
+            case 2:{
+              return (
+                <div className="boxGame" key={i+'_'+j} data-index={i+'_'+j} onClick={()=>this.handleClick(i,j)}>
+                  <div className= "innerGame" key={i+'*'+j}>{white}
+                  </div>
+                </div>
+              )
+            }
+            default:{
+              return (
+                <div className="boxGame" key={i+'_'+j} data-index={i+'_'+j} onClick={()=>this.handleClick(i,j)}>
+                  <div className= "innerGame" key={i+'*'+j}>
+                  </div>
+                </div>
+              );
+              break;
+            }
           }
+        })
+      }   
       </div>)
     });
 

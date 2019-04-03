@@ -7,7 +7,7 @@ exports.postGame = async(req, res, next)=>{
   const matrix = logic.createBoard(req.body.size);
   console.log('>>>>', matrix);
   const othello = new Othello({
-
+    type: req.body.type,
     IDplayer1 : req.body.IDplayer1,
     IDplayer2 : req.body.IDplayer2,
     matrix : matrix,
@@ -21,7 +21,7 @@ exports.postGame = async(req, res, next)=>{
     .save()
     .then(result =>{
         console.log(result);
-        res.status(201).json({ 
+        res.json({ 
             message: 'se realizo un post exitosamente',
             post: result
         });

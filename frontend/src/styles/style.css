@@ -33,9 +33,23 @@
     align-items: center;
     justify-content: center;
 }
-.pic {
+.pic1 {
     margin: 1px;
     font-weight: bold;
     flex: 1 0 auto;
     position: relative;
+    width: 4.4vw;
+    max-width: 3.4vh;
+    height: 4.4vw;
+    max-height: 3.4vh;
+}
+.pic2 {
+    margin: 1px;
+    font-weight: bold;
+    flex: 1 0 auto;
+    position: relative;
+    width: 5vw;
+    max-width: 4vh;
+    height: 5vw;
+    max-height: 4vh;
 }
