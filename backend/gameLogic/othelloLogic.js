@@ -29,7 +29,6 @@ exports.createBoard = (size) => {
 //function to check if the move is valid
 exports.move = (matrix,row, col, player, size) => {
     let valid = false;
-
     if (matrix[row][col] == 0) {
         valid = checkMove(matrix, row, col, player, size);
 

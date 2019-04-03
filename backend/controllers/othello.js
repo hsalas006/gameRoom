@@ -65,17 +65,18 @@ exports.getGame = async(req, res, next) => {
 };
 
 exports.playGame = async(req,res,next) =>{
-  const idGame = req.params.idGame;
-  const row = req.body.row;
-  const col = req.body.col;
+  let idGame = req.params.idGame;
+  let row = req.body.row;
+  let col = req.body.col;
   let matrix = req.body.matrix;
   let player = req.body.turn;
-  const size = req.body.size;
+  let size = req.body.size;
   let valid;
+  console.log(req.body.matrix, '<<<<<<<<<<<')
 
   matrix, valid = logic.move(matrix,row, col, player, size);
 
-  console.log(matrix, '*********')
+  console.log(matrix, '*********', valid)
   // if the move is valid 
   console.log(valid)
   if(valid){

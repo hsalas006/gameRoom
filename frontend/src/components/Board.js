@@ -7,36 +7,76 @@ export default class Board extends React.Component{
     super(props);
     this.state = {
       game: this.props.location.state.game,
-      pic:'',
-      'isWhite':true,
-      
+      turn: 'white',    
       grid: this.props.location.state.game.matrix,
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.handleReset = this.handleReset.bind(this);
+    this.drawBoard = this.drawBoard.bind(this);
+    this.checkMove = this.checkMove.bind(this);
+  }
+
+
+  handleClick(x,y){
+    let url = '';
+    console.log('x--> ',x,'y--> ',y);
+
+    if(this.state.turn === 'white'){
+      this.setState({turn: 'black'})
+    }else{
+      this.setState({turn: 'white'})
+    }
+    if(this.state.game.type === 'othello'){
+      url = 'http://localhost:8080/othello/gamePlay/';
+      this.checkMove(url, x, y);
+
+    }else if (this.state.game.type === 'memory'){
+      url = 'http://localhost:8080/memory/gamePlay/'; 
+      this.checkMove(url, x, y);
+    }
+    else{
+      alert('Error de reconocimiento');
+    }
+  }
+
+  checkMove(url, x, y, turn){
+    console.log(this.state.game.matrix, '<<<---**');
+    let matrix = this.state.game.matrix;
+    let size = this.state.game.size;
+    let id = this.state.game._id;
+
+    console.log(this.state.game._id, '<<<---**');
+    fetch('http://localhost:8080/othello/gamePlay/' + id, {
+            method: 'PUT',
+            headers: {
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              idGame: id,
+              row: x, 
+              col: y,
+              matrix: matrix,
+              turn: turn,
+              size: size,
+            })
+
+        }).then(res=>{
+              console.log(res.json());
+        }).catch(err=>{
+          console.log(err)
+        });  
   }
 
 
   drawBoard(){
-    
-  }
-
-  handleClick(x,y){
-    console.log('x--> ',x,'y--> ',y);
-
-  }
-  render(){
     const black = <img className="pic2" src='https://pngimage.net/wp-content/uploads/2018/05/bola-preta-png-5.png'/>;
     const white = <img className="pic1" src='https://cdn131.picsart.com/278213248025211.png'/>;
-
-
-    
     const g = this.state.grid;
     
-    const board = g.map((row, i) => { return (
+    return g.map((row, i) => { return (
       <div className="rowGame" key={"row_"+i}>
         {row.map((col, j) => {
+          console.log(col)
           switch(col){
             
             case 1:{
@@ -69,13 +109,14 @@ export default class Board extends React.Component{
       }   
       </div>)
     });
+  }
+
+  render(){
 
     return (
       <div className="gridGame">
-        {board}
-      </div>
-    
-      
+        {this.drawBoard()}
+      </div> 
     )
   }
 }
