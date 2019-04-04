@@ -39,32 +39,45 @@ export default class Board extends React.Component{
     }
   }
 
-  checkMove(url, x, y, turn){
-    console.log(this.state.game.matrix, '<<<---**');
-    let matrix = this.state.game.matrix;
-    let size = this.state.game.size;
-    let id = this.state.game._id;
+  async checkMove(url, x, y, turn){
+    try{
+      console.log(this.state.game.matrix, '<<<---**');
+      let matrix = this.state.game.matrix;
+      let size = this.state.game.size;
+      let id = this.state.game._id;
 
-    console.log(this.state.game._id, '<<<---**');
-    fetch('http://localhost:8080/othello/gamePlay/' + id, {
-            method: 'PUT',
-            headers: {
-              'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-              idGame: id,
-              row: x, 
-              col: y,
-              matrix: matrix,
-              turn: turn,
-              size: size,
-            })
+      console.log(this.state.game._id, '<<<---**');
+      await fetch('http://localhost:8080/othello/gamePlay/' + id, {
+              method: 'PUT',
+              headers: {
+                'content-type': 'application/json',
+                'Accept': 'application/json',
+              },
+              body: JSON.stringify({
+                idGame: id,
+                row: x, 
+                col: y,
+                matrix: matrix,
+                turn: turn,
+                size: size,
+              })
 
-        }).then(res=>{
-              console.log(res.json());
-        }).catch(err=>{
-          console.log(err)
-        });  
+          }).then(res=>{
+            return res.json();
+          })
+          .then(data =>{
+            console.log(data.game, '*****---------');
+            this.setState({game: data.game, turn: 'black', grid: data.game.matrix});
+            this.drawBoard();
+
+          })
+          .catch(err=>{
+            console.log(err)
+          });  
+    }catch (error){
+      console.log(error);
+    }
+    
   }
 
 

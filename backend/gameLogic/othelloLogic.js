@@ -29,14 +29,20 @@ exports.createBoard = (size) => {
 //function to check if the move is valid
 exports.move = (matrix,row, col, player, size) => {
     let valid = false;
+    let turn =1;
+    let matrixRes ='';
+    if(player !== 'white'){
+        turn=2;
+    }
     if (matrix[row][col] == 0) {
-        valid = checkMove(matrix, row, col, player, size);
+        matrixRes, valid = checkMove(matrix, row, col, turn, size);
 
-        if (player == true) {
-            matrix[row][col] = player;
-            return {matrix:matrix,validate:true};
+        if (valid == true) {
+            matrix[row][col] = turn;
+            return matrix,true;
         } 
     }
+    return null, false;
 };
 
 // function to call each possible way to check the move

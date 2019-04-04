@@ -3,11 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const othelloSchema = new Schema({
-    
-    type:{
-        type: String,
-        require: true
-    },
+
     IDplayer1:{
         type: String,
         require: true
@@ -29,7 +25,11 @@ const othelloSchema = new Schema({
         require: true
     },
     score:{
-        type: Number,
+        type: [],
+        require: false
+    },
+    type:{
+        type: String,
         require: false
     },
     sessionID:{

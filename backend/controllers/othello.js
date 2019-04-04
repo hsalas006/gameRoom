@@ -65,14 +65,14 @@ exports.getGame = async(req, res, next) => {
 };
 
 exports.playGame = async(req,res,next) =>{
-  let idGame = req.params.idGame;
+  let idGame = req.body.idGame;
   let row = req.body.row;
   let col = req.body.col;
   let matrix = req.body.matrix;
   let player = req.body.turn;
   let size = req.body.size;
   let valid;
-  console.log(req.body.matrix, '<<<<<<<<<<<')
+  console.log('<<<<<<<<<<<', idGame, '********')
 
   matrix, valid = logic.move(matrix,row, col, player, size);
 
@@ -83,7 +83,8 @@ exports.playGame = async(req,res,next) =>{
     // calc the score
     let score = logic.score(matrix, size);
     // find and save the info in the db
-    console.log(score, '------')
+    console.log(score, '------');
+    console.log('idGame:', idGame, '****--****')
     Othello.findById(idGame)
       .then(game => {
         if (!game) {
