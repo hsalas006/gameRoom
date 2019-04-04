@@ -56,6 +56,33 @@ exports.getSession = async(req, res, next)=>{
             console.log('error al encontrar una sesion');
         })
 };
+exports.addGame = (req, res, next) => {
+    const game = req.body.game;
+    Session.findByIdAndUpdate(req.body.idSession)
+        .then(session =>{
+            if(!session){
+                const error = new Error('No existe la sesion buscada.')
+                error.statusCode = 404;
+                throw error;
+            }
+            if(game.type === 'othello'){
+                --session.games.othello.num;
+                session.game.othello.idGames.push(game._id);
+            }else if(game.type === 'memory'){
+                --session.games.memory.num;
+                session.game.memory.idGames.push(game._id);
+            }
+            session.currentGame = game._id;
+            return session.save();
+        })
+        .then(result =>{
+            res.status(200).json({ message: 'El juego se a almacenado en la session!', session: result});
+        })
+        .catch(err =>{
+            console.log(err);
+            next();
+        })
+};
 
 exports.addPlayer = (req, res, next) =>{
     const sessionId = req.params.sessionId;

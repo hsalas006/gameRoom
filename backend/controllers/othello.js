@@ -72,7 +72,7 @@ exports.playGame = async(req,res,next) =>{
   let player = req.body.turn;
   let size = req.body.size;
   let valid;
-  console.log('<<<<<<<<<<<', idGame, '********')
+  console.log('player <<<<<<<<<<<', player, '********')
 
   matrix, valid = logic.move(matrix,row, col, player, size);
 

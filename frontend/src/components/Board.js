@@ -7,7 +7,7 @@ export default class Board extends React.Component{
     super(props);
     this.state = {
       game: this.props.location.state.game,
-      turn: 'white',    
+      turn: 1,    
       grid: this.props.location.state.game.matrix,
     };
 
@@ -21,11 +21,6 @@ export default class Board extends React.Component{
     let url = '';
     console.log('x--> ',x,'y--> ',y);
 
-    if(this.state.turn === 'white'){
-      this.setState({turn: 'black'})
-    }else{
-      this.setState({turn: 'white'})
-    }
     if(this.state.game.type === 'othello'){
       url = 'http://localhost:8080/othello/gamePlay/';
       this.checkMove(url, x, y);
@@ -39,8 +34,8 @@ export default class Board extends React.Component{
     }
   }
 
-  async checkMove(url, x, y, turn){
-    try{
+  async checkMove(url, x, y){
+
       console.log(this.state.game.matrix, '<<<---**');
       let matrix = this.state.game.matrix;
       let size = this.state.game.size;
@@ -58,7 +53,7 @@ export default class Board extends React.Component{
                 row: x, 
                 col: y,
                 matrix: matrix,
-                turn: turn,
+                turn: this.state.turn,
                 size: size,
               })
 
@@ -66,17 +61,18 @@ export default class Board extends React.Component{
             return res.json();
           })
           .then(data =>{
-            console.log(data.game, '*****---------');
-            this.setState({game: data.game, turn: 'black', grid: data.game.matrix});
-            this.drawBoard();
-
+            console.log(data, '*****---------');
+            console.log('turno: ',this.state.turn);
+            if(data){
+              this.setState({game: data.game, turn: data.game.turn, grid: data.game.matrix});
+              this.drawBoard();
+            }
+            
           })
           .catch(err=>{
             console.log(err)
           });  
-    }catch (error){
-      console.log(error);
-    }
+
     
   }
 
@@ -114,8 +110,7 @@ export default class Board extends React.Component{
                   <div className= "innerGame" key={i+'*'+j}>
                   </div>
                 </div>
-              );
-              break;
+              );    
             }
           }
         })

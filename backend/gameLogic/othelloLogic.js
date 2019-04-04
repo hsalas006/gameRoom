@@ -31,7 +31,7 @@ exports.move = (matrix,row, col, player, size) => {
     let valid = false;
     let turn =1;
     let matrixRes ='';
-    if(player !== 'white'){
+    if(player !== 1){
         turn=2;
     }
     if (matrix[row][col] == 0) {
@@ -147,7 +147,7 @@ downUp = (matrix, row, col, player1, player2) => {
             row++;
 
             while (matrix[row][col] == player2) {
-                matrix[rowf][col] = player1;
+                matrix[row][col] = player1;
                 check = true;
                 row++;
             }

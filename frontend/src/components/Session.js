@@ -21,12 +21,14 @@ export default class Sessions extends Component{
           this.clickOthello = this.clickOthello.bind(this);
       }
 
-   
-
     componentDidMount() {
         this.loadSession();
         //this.createGameOthello();
       }
+
+    async fetch(method, endpoint, body){
+        
+    }
     
     loadSession(){
         fetch('http://localhost:8080/session/'+ this.props.location.state.idSession)

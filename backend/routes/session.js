@@ -11,6 +11,8 @@ router.get('/sessions', sessionController.getSessions);
 
 router.get('/:idsession', sessionController.getSession);
 
+router.put('/newgameInsession', sessionController.addGame);
+
 router.put('/:sessionId', sessionController.updateSession);
 
 router.put('/addPlayer/:sessionId', sessionController.addPlayer);
