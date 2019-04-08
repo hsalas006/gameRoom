@@ -16,7 +16,7 @@ export default class NewSession extends Component{
           score: {player1: 0, player: 0}
         };
     }
-  
+
     handleSubmit(event) {
       event.preventDefault();
       const form = event.currentTarget;
@@ -28,7 +28,7 @@ export default class NewSession extends Component{
       
         this.setState({ 
           name: event.target.elements.name.value,
-          IdPlayer1: 'event.target.elements.name.value',
+          IdPlayer1: localStorage.getItem('userId'),
           memory: event.target.elements.memory.value,
           othello: event.target.elements.othello.value,
           boardSize: event.target.elements.size.value
@@ -41,7 +41,7 @@ export default class NewSession extends Component{
             },
             body: JSON.stringify({
                 name: event.target.elements.name.value,
-                IdPlayer1: '12345678',
+                IdPlayer1: localStorage.getItem('userId'),
                 IdPlayer2: null,
                 games: { 
                   othello: {

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 import firebase from "firebase"
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import Menu from '../components/Menu';
+import Menu from './Menu';
+
+import auth from '../authHelper';
 
 firebase.initializeApp({
     apiKey: "AIzaSyA0kHfgbRI6PcZgkiCU-HC1fbHrqPfguec",
@@ -46,14 +48,17 @@ export default class SignIn extends Component {
         console.log('error no hay usuario registrado');
         return
       }
-      firebase.auth().currentUser.getIdToken().then(token =>{
+      user.getIdToken().then(token =>{
           
         this.setState({
           idToken: token.toString(),
-          email: firebase.auth().currentUser.email,
-          name: firebase.auth().currentUser.displayName
+          userId: user.uid,
+          email: user.email,
+          name: user.displayName
         });
-        console.log(this.state.idToken,':::>>');
+        localStorage.setItem('idToken', JSON.stringify(token.toString()));
+        localStorage.setItem('userId', JSON.stringify(user.uid));
+
       })
         .catch(err=>{
         console.log(err);
@@ -81,8 +86,8 @@ export default class SignIn extends Component {
 
       <div className="App">
         {this.state.idToken ? (
-            <span>{console.log('****',this.state.userId)}
-              <Menu user={this.state.user}></Menu>
+            <span>
+              <Menu userId={this.state.userId} idToken={this.state.idToken} name={this.state.name}></Menu>
             </span>
           ) : (
             <div className="jumbotron">

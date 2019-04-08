@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import openSocket from 'socket.io-client';
 
 export default class Sessions extends Component{
 
@@ -8,29 +9,70 @@ export default class Sessions extends Component{
         
         this.state = {
             idSession: props.location.state.idSession,
+            player1: '',
+            player2: '',
             session: {},
-            othelloNum: '',
+            othelloNum: 0,
             othelloList: [],
-            memoryNum: '',
+            memoryNum: 0,
             memoryList: [],
-            currentGame: ''
+            currentGame: '',
+            initialized: false
           };
           this.createGame = this.createGame.bind(this);
           this.displayGame = this.displayGame.bind(this);
           this.clickMemory = this.clickMemory.bind(this);
           this.clickOthello = this.clickOthello.bind(this);
+          this.addGame = this.addGame.bind(this);
       }
+    
+    createAllGames(){
+        if(localStorage.getItem('userId')=== this.state.player1){
+
+            for(let i=0; i< this.state.othelloNum; i++){
+                this.clickOthello();
+            }
+            for(let i=0; i< this.state.memoryNum; i++){
+                this.clickMemory();
+            }
+        }
+    }
 
     componentDidMount() {
         this.loadSession();
-        //this.createGameOthello();
-      }
 
-    async fetch(method, endpoint, body){
+        //this.createGameOthello();
+    }
+
+    addGame(game){
+        
+        fetch('http://localhost:8080/session/'+this.state.idSession,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+  
+                  idSession: this.state.idSession,
+                  game : game
+              })
+            })
+          .then(res=>{
+              return res.json();
+          }).then(data=>{
+              console.log(data.post);
+              this.setState({})
+          })
+          .catch(err=>{
+              console.log(err);
+          });
+
+
         
     }
-    
+
     loadSession(){
+        console.log('>>>>> ::: ', this.props.location.state.idSession)
         fetch('http://localhost:8080/session/'+ this.props.location.state.idSession)
         .then(res => {
             if (res.status !== 200) {
@@ -39,16 +81,17 @@ export default class Sessions extends Component{
             return res.json();
         })
         .then(resData => {
-
+            console.log(';;;;;;; ', resData.session)
             this.setState({
-            session: resData.session,
-            othelloNum: resData.session.games.othello.num,
-            othelloList: resData.session.games.othello.idGames,
-            memoryNum: resData.session.games.memory.num,
-            mameryList: resData.session.games.memory.idGames,
-            currentGame: resData.session.currentGame,
+                session: resData.session,
+                player1: resData.session.IDplayer1,
+                player2: resData.session.IDplayer2,
+                othelloNum: resData.session.games.othello.num,
+                othelloList: resData.session.games.othello.idGames,
+                memoryNum: resData.session.games.memory.num,
+                mameryList: resData.session.games.memory.idGames,
+                currentGame: resData.session.currentGame,
             });
-            console.log(this.state.session.othello, '------*')
         })
         .catch(err=>{console.log(err)});
     }
@@ -66,11 +109,12 @@ export default class Sessions extends Component{
     }
 
     createGame(url, type){
+
         console.log(url)
         fetch(url, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
             },
             body: JSON.stringify({
 
@@ -84,23 +128,25 @@ export default class Sessions extends Component{
         }).then(res=>{
             return res.json();
         }).then(data=>{
-            console.log(data.post);
+            console.log(data.post, '¡¡¡¡¡¡¡¡¡');
+            this.setState({
 
-            this.displayGame('/board', data.post);
+            })
+            this.addGame(data.post);
+            //this.displayGame('/board', data.post);
         });
+        
     }
     displayGame(path, game){
         this.props.history.push({pathname: path, state: {game: game}});  
-      }
+    }
 
     handleClick(e) {
         console.log('---->>>',e);
-
-      }
+    }
 
     render(){
         //let othello = this.state.session.games.othello.num;
-        console.log(this.props.idSession)
         return(
             <div className="jumbotron">
                 <h2 className="display-5 text-center"> Sesion Actual: {this.state.session.name}</h2>
@@ -108,8 +154,15 @@ export default class Sessions extends Component{
                     <div className="card-header">
                         {this.state.session.IDplayer1 +' vs '+ this.state.session.IDplayer2}
                     </div>
+                    <div>
+                        {!this.state.initialized && localStorage.getItem('userId') === this.state.session.IDplayer1 ?
+                            <button onClick={this.clickOthello} className="btn btn-primary">Crear Juegos</button>
+                            : null
+                        }
+                    </div>
                     <div className="card-body">
                         <h5 className="card-title">Lista de Juegos</h5>
+                        
                         <div className="card-text">{this.state.othelloNum > 0 && 
                             <div>
                                 Othello: {this.state.othelloNum} <button onClick={this.clickOthello} className="btn btn-primary">Jugar</button>

@@ -5,12 +5,20 @@ import {Link} from "react-router-dom";
 
 
 export default class Menu extends Component{
+    constructor(props){
+        super(props);
+        this.state= {
+            idUser: props.userId,
+            token: props.idToken
+        }
+        console.log(props);
+    }
     render(){
         return(
         <div className="jumbotron">
                 <h1 className="display-5 text-center">Menu</h1>
              
-                    <Button variant="outline-primary" size="lg" block as={Link} to="/newsession" onClick>
+                    <Button variant="outline-primary" size="lg" block as={Link} to="/newsession">
                         Nueva Sesion 
                     </Button>
               

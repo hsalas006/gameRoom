@@ -66,10 +66,10 @@ exports.addGame = (req, res, next) => {
                 throw error;
             }
             if(game.type === 'othello'){
-                --session.games.othello.num;
+                session.games.othello.num;
                 session.game.othello.idGames.push(game._id);
             }else if(game.type === 'memory'){
-                --session.games.memory.num;
+                session.games.memory.num;
                 session.game.memory.idGames.push(game._id);
             }
             session.currentGame = game._id;

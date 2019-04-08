@@ -7,7 +7,7 @@ import reduxThunk from 'redux-thunk';
 
 import * as serviceWorker from './serviceWorker';
 import App from './components/App';
-import SignIn from './components/SingIn';
+import SignIn from './components/SignIn';
 
 import Board from './components/Board';
 import reducers from './reducers';
@@ -27,7 +27,7 @@ ReactDOM.render(
                 <Route exact path="/Menu" component={Menu} />
                 <Route exact path="/Newsession" component={NewSession} />
                 <Route exact path="/Sessions" component={Sessions} />
-                <Route exact path="/Session" component={Session} idSession={'5ca11ed6e724ce329fd47086'}/>
+                <Route exact path="/Session" component={Session} />
                 <Route exact path="/Board" component={Board} />
                 <Route exact path="/memory/:id" component={Board} />
                 <Route exact path="/othello/:id" component={Board} />

@@ -34,7 +34,7 @@ app.use(function (req, res, next) {
 // define as the last app.use callback
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    res.send(err.message);
+    console.log(err);
 });
 
 // Database initialization, Server listener and socket init
@@ -49,19 +49,9 @@ mongoose
         const server = app.listen(app.get('port'), () => {
             console.log(`Servidor en el puerto ${app.get('port')}...`);
         });
-        /*
+        
         // webSockets start
         const io = require('./socket').init(server);
-        /*
-        // client side code
-        var socket = io.connect();
-        socket.emit("create", "room1");
-       
-        io.on('connection', socket =>{
-            socket.on('create', room=>{
-                socket.join(room);
-            })
-            console.log('Client connected!!');
-        }); */
+
     })
     .catch(err => console.log('>>>>', err));

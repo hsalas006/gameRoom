@@ -1,6 +1,8 @@
 import React from 'react';
 import Square from './Square';
+import openSocket from 'socket.io-client';
 import '../styles/style.css';
+import { resolveSoa } from 'dns';
 
 export default class Board extends React.Component{
   constructor(props){
@@ -16,6 +18,18 @@ export default class Board extends React.Component{
     this.checkMove = this.checkMove.bind(this);
   }
 
+  componentDidMount(){
+    let idSocket = this.state.game._id;
+    console.log('idGame: 0', idSocket, '<<<<<<<');
+    const socket = openSocket('http://localhost:8080');
+    
+    this.checkMove()
+    this.drawBoard();
+
+    socket.on(idSocket, data =>{
+      console.log('----*-: ', data.action, '-- ', idSocket)
+    })
+  }
 
   handleClick(x,y){
     let url = '';
@@ -34,46 +48,42 @@ export default class Board extends React.Component{
     }
   }
 
-  async checkMove(url, x, y){
-
-      console.log(this.state.game.matrix, '<<<---**');
-      let matrix = this.state.game.matrix;
-      let size = this.state.game.size;
-      let id = this.state.game._id;
-
-      console.log(this.state.game._id, '<<<---**');
-      await fetch('http://localhost:8080/othello/gamePlay/' + id, {
-              method: 'PUT',
-              headers: {
-                'content-type': 'application/json',
-                'Accept': 'application/json',
-              },
-              body: JSON.stringify({
-                idGame: id,
-                row: x, 
-                col: y,
-                matrix: matrix,
-                turn: this.state.turn,
-                size: size,
-              })
-
-          }).then(res=>{
-            return res.json();
-          })
-          .then(data =>{
-            console.log(data, '*****---------');
-            console.log('turno: ',this.state.turn);
-            if(data){
-              this.setState({game: data.game, turn: data.game.turn, grid: data.game.matrix});
-              this.drawBoard();
-            }
-            
-          })
-          .catch(err=>{
-            console.log(err)
-          });  
+  checkMove(url, x, y){
 
     
+    let matrix = this.state.game.matrix;
+    let size = this.state.game.size;
+    let id = this.state.game._id;
+
+    console.log(this.state.game._id, '<<<---**');
+    fetch(url + id, {
+            method: 'PUT',
+            headers: {
+              'content-type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              idGame: id,
+              row: x, 
+              col: y,
+              matrix: matrix,
+              turn: this.state.turn,
+              size: size,
+            })
+
+        }).then(res=>{
+          return res.json();
+        })
+        .then(data =>{
+          if(data){
+
+            this.setState({game: data.game, turn: data.game.turn, grid: data.game.matrix});
+            this.drawBoard();
+          }
+        })
+        .catch(err=>{
+          console.log(err)
+        });  
   }
 
 
@@ -85,7 +95,6 @@ export default class Board extends React.Component{
     return g.map((row, i) => { return (
       <div className="rowGame" key={"row_"+i}>
         {row.map((col, j) => {
-          console.log(col)
           switch(col){
             
             case 1:{

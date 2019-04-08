@@ -3,25 +3,62 @@ import { Link } from 'react-router-dom';
 import firebase from 'firebase';
 
 export default class Header extends Component {
-    constructor(props) {
-        super(props);
-        this.onClick = this.onClick.bind(this);
+  constructor(props) {
+      super(props);
+      this.state ={
+        idToken: '',
+        userId: '',
+        name: '',
+        email: ''
+      }
+      this.componentDidUpdate = this.componentDidUpdate.bind();
+  }
+
+  componentDidUpdate(){
+    if(localStorage.getItem('idToken')==='null'){
+      console.log('---->>>>', localStorage.getItem('idToken'));
+      this.props.history.push({pathname: '/signin'});
     }
+    
+    console.log('idToken: ', localStorage.getItem('userId'))
+  }
 
-    componentDidMount = () => {
-        firebase.auth().onAuthStateChanged(user => {
-          this.setState({ isSignedIn: !!user })
-          console.log("user", user)
+  componentDidMount = () => {
+      firebase.auth().onAuthStateChanged(user => {
+        if(!user){
+          console.log('error no hay usuario registrado');
+          return
+        }
+        user.getIdToken().then(token =>{
+            
+          this.setState({
+            idToken: token.toString(),
+            userId: user.uid,
+            email: user.email,
+            name: user.displayName
+          });
+          
         })
-      }
-      onClick = ()=>{
-        firebase.auth().onAuthStateChanged(user => {
-            this.setState({ isSignedIn: !!user })
-            console.log("user", user)
-          })
-      }
+          .catch(err=>{
+          console.log(err);
+        }); 
+      });
+  }
 
-    render() {
+  signOut(){
+    firebase.auth().signOut().then(() => {
+      this.setState({
+        idToken: '',
+        userId: '',
+        email: '',
+        name: ''
+      });
+    })
+    localStorage.removeItem('idToken');
+    console.log(this.state.name)
+  }
+
+  render() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{ marginBottom: '30px' }}>
         <Link className="navbar-brand" to="/">GameRoom - v.1.1</Link>
@@ -33,14 +70,18 @@ export default class Header extends Component {
             </li>
           </ul>
 
-          <ul className="nav navbar-nav ml-auto">
-
-            <li className="nav-item">
-              <Link className="nav-link" to="/signin">Acceder</Link>
-                           </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/signin">Salir</Link>
-            </li>
+          <ul className="nav navbar-nav">
+            {this.state.idToken ? 
+              <li className="nav-item">
+                <Link className="nav-link" to="/signin" onClick={this.signOut} >Salir</Link>
+              </li>
+            :
+              <li className="nav-item">
+                <Link className="nav-link" to="/signin">Acceder</Link>
+              </li>
+            }
+            
+            
           </ul>
         </div>
       </nav>

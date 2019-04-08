@@ -1,6 +1,6 @@
 const Othello = require('../models/othello');
 const logic = require('../gameLogic/othelloLogic');
-const io = require('../socket').getIO();
+const io = require('../socket');
 
 exports.postGame = async(req, res, next)=>{
 
@@ -101,6 +101,7 @@ exports.playGame = async(req,res,next) =>{
         return game.save();
       })
       .then(result => {
+        io.getIO().emit(idGame, {action: 'move', game:result});
         res.status(200).json({ message: 'Movimiento exitoso!', game: result });    
       })
       .catch(err =>{
@@ -112,6 +113,8 @@ exports.playGame = async(req,res,next) =>{
     res.status(406).json({ message: 'Movimiento no aceptado!', valid: false });
     console.log('movimiento invalido.');    
   }
+
+
 };
 
 exports.updateGame = (req, res, next) => {
