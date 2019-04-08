@@ -133,7 +133,7 @@ export default class Sessions extends Component{
 
             })
             this.addGame(data.post);
-            //this.displayGame('/board', data.post);
+            this.displayGame('/board', data.post);
         });
         
     }
