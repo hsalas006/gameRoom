@@ -44,7 +44,7 @@ mongoose
     )
     .then(result =>{
         console.log('Conexion exitosa a la base de datos...');
-        
+
         // Start the server
         const server = app.listen(app.get('port'), () => {
             console.log(`Servidor en el puerto ${app.get('port')}...`);

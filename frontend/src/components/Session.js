@@ -12,63 +12,19 @@ export default class Sessions extends Component{
             player1: '',
             player2: '',
             session: {},
-            othelloNum: 0,
-            othelloList: [],
-            memoryNum: 0,
-            memoryList: [],
+            othello: '',
+            idGames:[],
+            memory: '',
             currentGame: '',
             initialized: false
           };
           this.createGame = this.createGame.bind(this);
           this.displayGame = this.displayGame.bind(this);
-          this.clickMemory = this.clickMemory.bind(this);
-          this.clickOthello = this.clickOthello.bind(this);
           this.addGame = this.addGame.bind(this);
       }
     
-    createAllGames(){
-        if(localStorage.getItem('userId')=== this.state.player1){
-
-            for(let i=0; i< this.state.othelloNum; i++){
-                this.clickOthello();
-            }
-            for(let i=0; i< this.state.memoryNum; i++){
-                this.clickMemory();
-            }
-        }
-    }
-
     componentDidMount() {
         this.loadSession();
-
-        //this.createGameOthello();
-    }
-
-    addGame(game){
-        
-        fetch('http://localhost:8080/session/'+this.state.idSession,{
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-  
-                  idSession: this.state.idSession,
-                  game : game
-              })
-            })
-          .then(res=>{
-              return res.json();
-          }).then(data=>{
-              console.log(data.post);
-              this.setState({})
-          })
-          .catch(err=>{
-              console.log(err);
-          });
-
-
-        
     }
 
     loadSession(){
@@ -86,30 +42,52 @@ export default class Sessions extends Component{
                 session: resData.session,
                 player1: resData.session.IDplayer1,
                 player2: resData.session.IDplayer2,
-                othelloNum: resData.session.games.othello.num,
-                othelloList: resData.session.games.othello.idGames,
-                memoryNum: resData.session.games.memory.num,
-                mameryList: resData.session.games.memory.idGames,
+                othello: resData.session.games[1],
+                memory: resData.session.games[0],
                 currentGame: resData.session.currentGame,
             });
         })
+        .then(()=>this.createAllGames())
         .catch(err=>{console.log(err)});
     }
+    
+    createAllGames(){
+        
+        //if(this.state.player2 !== null && this.initialized === false){
 
-    clickOthello(){
-        let url = 'http://localhost:8080/othello/newgame';
-        let type = 'othello';
-        this.createGame(url, type);
+            for(let i=0; i< this.state.othello; i++){
+                this.createGame('http://localhost:8080/othello/newgame', 'othello');
+            }
+            for(let i=0; i< this.state.memory; i++){
+                this.createGame('http://localhost:8080/memory/newgame', 'memory');
+            }
+            this.setState({initialized: true});
+        //}
     }
 
-    clickMemory(){
-        let url = 'http://localhost:8080/memory/newgame';
-        let type = 'memory';
-        this.createGame(url, type);
+    addGame(){
+        console.log(this.state.game, '---------')
+        fetch('http://localhost:8080/session/newgameInsession/' + this.state.idSession,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  idSession: this.state.idSession,
+                  idGames : this.state.idGames 
+              })
+            })
+          .then(res=>{
+              return res.json();
+          }).then(data=>{
+              console.log(data, '----*--**-');    
+          })
+          .catch(err=>{
+              console.log(err);
+          });     
     }
 
     createGame(url, type){
-
         console.log(url)
         fetch(url, {
             method: 'POST',
@@ -117,7 +95,6 @@ export default class Sessions extends Component{
             'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-
                 type: type,
                 IDplayer1 : this.state.session.IDplayer1,
                 IDplayer2 : this.state.session.IDplayer2,
@@ -128,21 +105,19 @@ export default class Sessions extends Component{
         }).then(res=>{
             return res.json();
         }).then(data=>{
-            console.log(data.post, '¡¡¡¡¡¡¡¡¡');
+            let list = this.state.games.concat(data.post._id)
             this.setState({
-
+                idGames: list
             })
-            this.addGame(data.post);
-            this.displayGame('/board', data.post);
-        });
-        
+            console.log(this.state.idGames)     
+        })
+        .catch(err=>{
+            console.log(err)
+        });     
     }
+
     displayGame(path, game){
         this.props.history.push({pathname: path, state: {game: game}});  
-    }
-
-    handleClick(e) {
-        console.log('---->>>',e);
     }
 
     render(){
@@ -154,25 +129,31 @@ export default class Sessions extends Component{
                     <div className="card-header">
                         {this.state.session.IDplayer1 +' vs '+ this.state.session.IDplayer2}
                     </div>
+                    
                     <div>
-                        {!this.state.initialized && localStorage.getItem('userId') === this.state.session.IDplayer1 ?
-                            <button onClick={this.clickOthello} className="btn btn-primary">Crear Juegos</button>
-                            : null
+                        <ul class="list-group">{
+                            this.state.idGames.map((elm, i) =>{
+                                console.log(elm)
+                                return(<li class="list-group-item">Juego {i+1} ID: {elm}</li>)
+                            })
                         }
+                            
+                        </ul>
+                     
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">Lista de Juegos</h5>
                         
-                        <div className="card-text">{this.state.othelloNum > 0 && 
+                        <div className="card-text">{this.state.othello > 0 && 
                             <div>
-                                Othello: {this.state.othelloNum} <button onClick={this.clickOthello} className="btn btn-primary">Jugar</button>
+                                Othello: {this.state.othello} <button onClick={this.clickOthello} className="btn btn-primary">Jugar</button>
                             </div>
                             
                             }
                         </div>
-                        <div className="card-text">{this.state.memoryNum > 0 && 
+                        <div className="card-text">{this.state.memory > 0 && 
                             <div>
-                                Memoria: {this.state.memoryNum}<button onClick={this.clickMemory} className="btn btn-primary">Jugar</button>
+                                Memoria: {this.state.memory}<button onClick={this.clickMemory} className="btn btn-primary">Jugar</button>
                             </div>
                             
                             }

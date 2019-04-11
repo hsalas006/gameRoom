@@ -43,24 +43,15 @@ export default class NewSession extends Component{
                 name: event.target.elements.name.value,
                 IdPlayer1: localStorage.getItem('userId'),
                 IdPlayer2: null,
-                games: { 
-                  othello: {
-                    num: event.target.elements.memory.value,
-                    idGames: []
-                  }, 
-                  memory: {
-                    num: event.target.elements.othello.value,
-                    idGames: []
-                  }
-                },
+                games: [event.target.elements.memory.value,event.target.elements.othello.value],
                 boardSize: event.target.elements.size.value,
                 score: 0
             })
         }).then(res=>{
               console.log(res.json());
+              this.props.history.push({pathname: '/sessions'}); 
         });  
-      }
-      
+      }   
     }
   
     render() {
