@@ -67,50 +67,50 @@ checkMove = (matrix, row, col, player, size)=>{
     
     // down-up  
     if (row != 0) {
-        matrixRes, up = downUp(matrix, row - 1, col, player, player2);
+        matrix, up = downUp(matrix, row - 1, col, player, player2);
     }
 
     // up-down 
     if (row != size - 1) { 
-        matrixRes, down = upDown(matrix, row + 1, col, player, player2, size - 1);
+        matrix, down = upDown(matrix, row + 1, col, player, player2, size - 1);
     }
 
     // right-left
     if (col != 0) {
-        matrixRes, left = rightLeft(matrix, row, col - 1, player, player2, size - 1);
+        matrix, left = rightLeft(matrix, row, col - 1, player, player2, size - 1);
     }
 
     // left-right   
     if (col != size - 1) {
-        matrixRes, right = leftRight(matrix, row, col + 1, player, player2, size - 1);
+        matrix, right = leftRight(matrix, row, col + 1, player, player2, size - 1);
     }
 
     // down-up-Left
     if ((row != 0) & (col != 0)) {
-        matrixRes, upLeft = downUpLeft(matrix, row - 1, col - 1, player, player2, size - 1);
+        matrix, upLeft = downUpLeft(matrix, row - 1, col - 1, player, player2, size - 1);
     }
 
     // down-up-right
     if ((row != 0) & (col != size - 1)) {
-        matrixRes, upRight = downUpRight(matrix, row - 1, col + 1, player, player2, size - 1);
+        matrix, upRight = downUpRight(matrix, row - 1, col + 1, player, player2, size - 1);
     }
 
     // up-down-left
     if ((row != size - 1) & (col != 0)) {
-        matrixRes, downLeft = upDownLeft(matrix, row + 1, col - 1, player, player2, size - 1);
+        matrix, downLeft = upDownLeft(matrix, row + 1, col - 1, player, player2, size - 1);
     }
     
     // up-down-right
     if ((row != size - 1) & (col != size - 1)) {
-        matrixRes, downRight = upDownRight(matrix, row + 1, col + 1, player, player2, size - 1);
+        matrix, downRight = upDownRight(matrix, row + 1, col + 1, player, player2, size - 1);
     }
 
     // check if exist a valid move
     if (up == true || down == true || left == true || right == true || upLeft == true || upRight == true || downLeft == true || downRight == true) {
-        console.log(matrixRes);
-        return matrixRes, true;
+        console.log(matrix);
+        return matrix, true;
     }
-        return matrixRes, false;
+    return null, false;
 };
 
 // function to calculate the actual score of the game    
@@ -179,17 +179,14 @@ upDown = (matrix, row, col, player1, player2, size) => {
 rightLeft = (matrix, row, col, player1, player2, size) => {
     var check = false;
     if (matrix[row][col] == player2) {
-        while ((matrix[row][col] == player2) & (row > 0) & (col > 0)) {
-            row--;
+        while ((matrix[row][col] == player2) & (col > 0)) {
             col--;
         }
         if (matrix[row][col] == player1) {
-            row++;
             col++;
             while (matrix[row][col] == player2) {
                 matrix[row][col] = player1;
                 check = true;
-                row++;
                 col++;
             }
         }
@@ -202,17 +199,14 @@ rightLeft = (matrix, row, col, player1, player2, size) => {
 leftRight = (matrix, row, col, player1, player2, size) => {
     var check = false;
     if (matrix[row][col] == player2) {
-        while ((matrix[row][col] == player2) & (row > 0) & (col < size)) {
-            row--;
+        while ((matrix[row][col] == player2) & (col < size)) {
             col++;
         }
         if (matrix[row][col] == player1) {
-            row++;
             col--;
             while (matrix[row][col] == player2) {
                 matrix[row][col] = player1;
                 check = true;
-                row++;
                 col--;
             }
         }

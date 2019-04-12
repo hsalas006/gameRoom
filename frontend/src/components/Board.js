@@ -24,9 +24,9 @@ export default class Board extends React.Component{
     this.checkMove()
     this.drawBoard();
 
-    socket.on('game_playing', data =>{
+    socket.on(idSocket.toString(), data =>{
       console.log('----*******************************************-: ', data.action, '-- ', idSocket);
-      this.setState({game: data.game, grid: data.game.matrix});
+      this.setState({game: data.game, grid: data.game.matrix, turn:data.turn});
       this.drawBoard();
     })
   }

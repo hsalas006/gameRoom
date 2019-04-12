@@ -101,7 +101,7 @@ exports.playGame = async(req,res,next) =>{
         return game.save();
       })
       .then(result => {
-        io.getIO().emit('game_playing', {action: 'move', game:result});
+        io.getIO().emit(result._id.toString(), {action: 'move', game:result});
         res.status(200).json({ message: 'Movimiento exitoso!', game: result });    
       })
       .catch(err =>{
