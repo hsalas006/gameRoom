@@ -6,7 +6,7 @@ exports.postSession = async(req, res, next)=>{
     const IDplayer1 = req.body.IdPlayer1;
     const IDplayer2 = null;
     const games = req.body.games;
-    const currentGame = null;
+    const currentGame = 2;
     const boardSize = req.body.boardSize;
     const score = {player1: 0, player2: 0};
     
@@ -50,6 +50,7 @@ exports.getSession = async(req, res, next)=>{
                 console.log('la sesion no existe');
             }
             res.status(200).json({ message: 'Sesion encontrada', session: session});
+            io.getIO().emit('user', 'Jugador conectado a sesion: '+ session.name);
         })
         .catch(err =>{
             console.log('error al encontrar una sesion');
@@ -65,7 +66,7 @@ exports.addGame = (req, res, next) => {
                 throw error;
             }
             session.games = idGames;  
-            session.currentGame = idGames[0];
+            session.currentGame = 2;
             return session.save();
         })
         .then(result =>{
@@ -73,7 +74,6 @@ exports.addGame = (req, res, next) => {
         })
         .catch(err =>{
             console.log(err);
-            next();
         })
 };
 
@@ -92,6 +92,7 @@ exports.addPlayer = (req, res, next) =>{
         })
         .then(result =>{
             res.status(200).json({ message: 'Jugador 2 agregado exitosamente!', session: result});
+            io.getIO().emit('addPlayer', result);
         })
         .catch(err =>{
             console.log(err);

@@ -34,7 +34,7 @@ export default class NewSession extends Component{
           boardSize: event.target.elements.size.value
         });
         console.log(event.target.elements.name.value, '<<<<<<<<<<<<<<<<<');
-        fetch('http://localhost:8080/session/newsession', {
+        fetch('http://localhost:8000/session/newsession', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

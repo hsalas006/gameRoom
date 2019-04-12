@@ -14,7 +14,7 @@ export default class Header extends Component {
         email: ''
       }
       this.componentDidUpdate = this.componentDidUpdate.bind();
-      socket = openSocket('http://localhost:8080');
+      socket = openSocket('http://localhost:8000');
   }
 
   componentDidUpdate(){

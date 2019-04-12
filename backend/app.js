@@ -10,7 +10,7 @@ const sessionRoutes = require('./routes/session');
 const app = express();
 
 // Settings 
-app.set('port', process.env.PORT || 8080)
+app.set('port', process.env.PORT || 8000)
 
 // Middlewares
 app.use(bodyParser.json());
@@ -54,7 +54,9 @@ mongoose
         const io = require('./socket').init(server);
 
         io.on("connection", socket => {
-            console.log('prueba de socket', socket.id);  
+            
+            console.log('prueba de socket ID: ', socket.id);    
         });
+        
     })
     .catch(err => console.log('>>>>', err));

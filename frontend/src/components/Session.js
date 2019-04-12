@@ -10,13 +10,14 @@ export default class Sessions extends Component{
         
         this.state = {
             idSession: props.location.state.idSession,
+            game:{},
             player1: '',
             player2: '',
             session: {},
             othello: 0,
             memory: 0,
             idGames:[],
-            currentGame: '',
+            currentGame: 0,
             initialized: false
           };
           this.createGame = this.createGame.bind(this);
@@ -24,18 +25,21 @@ export default class Sessions extends Component{
           this.addGame = this.addGame.bind(this);
           this.createAllGames = this.createAllGames.bind(this);
           this.loadSession = this.loadSession.bind(this);
-
-      }
+          this.loadGame = this.loadGame.bind(this);
+    }
     
     componentDidMount() {
         this.loadSession();
-        socket.emit("iniciando socket");
-        socket.on('prueba de socket', localStorage.getItem('userId'));
+        
+        socket.on('createGames', res=>{
+            console.log('respuesta: ', res);
+            this.setState({idGames: res});
+        });
     }
 
-    loadSession(){
+    async loadSession(){
 
-        fetch('http://localhost:8080/session/'+ this.props.location.state.idSession)
+        await fetch('http://localhost:8000/session/'+ this.props.location.state.idSession)
         .then(res => {
             if (res.status !== 200) {
                 console.log('Error al cargar la sesion.');
@@ -45,6 +49,12 @@ export default class Sessions extends Component{
         .then(resData => {
             if(resData.session)
             {
+                console.log(resData.session.games)
+                if(resData.session.games.length > 2){
+                    this.setState({
+                        initialized: true
+                    })  
+                }
                 this.setState({
                     session: resData.session,
                     player1: resData.session.IDplayer1,
@@ -57,25 +67,54 @@ export default class Sessions extends Component{
             }
         })
         .catch(err=>{console.log(err)});
+        this.createAllGames();
     }
+
+    async loadGame(){
+        let url;
+        let idGame= this.state.idGames[this.state.currentGame];;
+        if (this.state.currentGame-1 <= this.state.othello){
+            url= 'http://localhost:8000/othello/game/';
+        }
+        else if (this.state.currentGame-1 <= this.state.othello+this.state.memory){
+            url= 'http://localhost:8000/memory/game/';
+        }
+        await fetch(url + idGame)
+        .then(res => {
+            if (res.status !== 200) {
+                console.log('Error al cargar la sesion.');
+            }
+            return res.json();
+        })
+        .then(resData => {
+            if(resData.game){ 
+                this.setState({game: resData.game});
+            }
+            console.log('>>>>> ', resData.game)
+        })
+        .catch(err=>{console.log(err)});
+        console.log('>>>>> ', idGame)
+        this.props.history.push({pathname: '/board', state: {game: this.state.game}});  
+      }
+
     
     createAllGames(){
         
         //if(this.state.player2 !== null && this.initialized === false){
+        if(this.state.initialized === false){
+            console.log(this.state.othello, 'othello')
             for(let i=0; i< this.state.othello; i++){
-                this.createGame('http://localhost:8080/othello/newgame', 'othello');
+                this.createGame('http://localhost:8000/othello/newgame', 'othello'); 
             }
             for(let i=0; i< this.state.memory; i++){
-                this.createGame('http://localhost:8080/memory/newgame', 'memory');
-                
-            }
-            this.setState({initialized: true});
-            
-        //}
+                this.createGame('http://localhost:8000/memory/newgame', 'memory'); 
+            }  
+        }
+        this.setState({initialized: true});
     }
 
     addGame(){
-        fetch('http://localhost:8080/session/newgameInsession/' + this.state.idSession,{
+        fetch('http://localhost:8000/session/newgameInsession/' + this.state.idSession,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -95,8 +134,8 @@ export default class Sessions extends Component{
           });     
     }
 
-    createGame(url, type){  
-        fetch(url, {
+    async createGame(url, type){  
+        await fetch(url, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json'
@@ -123,7 +162,13 @@ export default class Sessions extends Component{
         })
         .catch(err=>{
             console.log(err)
-        });     
+        });  
+        this.addGame();   
+    }
+
+    clickOthello(){
+        this.loadGame();
+        
     }
 
     displayGame(path, game){
@@ -140,9 +185,7 @@ export default class Sessions extends Component{
                         {this.state.session.IDplayer1 +' vs '+ this.state.session.IDplayer2}
                     </div>
                     
-                    <div>
-                    <button onClick={this.createAllGames} className="btn btn-primary">crear</button>
-                    <button onClick={this.addGame} className="btn btn-primary">guardar</button>
+                    
                     <div>
                         {this.state.initialized ?
                             <ul className="list-group">{
@@ -156,20 +199,20 @@ export default class Sessions extends Component{
                     </div>
                         
                      
-                    </div>
+                
                     <div className="card-body">
                         <h5 className="card-title">Lista de Juegos</h5>
                         
                         <div className="card-text">{this.state.othello > 0 && 
                             <div>
-                                Othello: {this.state.othello} <button onClick={this.clickOthello} className="btn btn-primary">Jugar</button>
+                                Othello: {this.state.othello} <button onClick={this.loadGame} className="btn btn-primary">Jugar</button>
                             </div>
                             
                             }
                         </div>
                         <div className="card-text">{this.state.memory > 0 && 
                             <div>
-                                Memoria: {this.state.memory}<button onClick={this.clickMemory} className="btn btn-primary">Jugar</button>
+                                Memoria: {this.state.memory}<button onClick={this.loadGame} className="btn btn-primary">Jugar</button>
                             </div>
                             
                             }

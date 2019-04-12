@@ -23,12 +23,16 @@ export default class Sessions extends Component{
       const sessList = this.state.sessions;
       sessList.unshift(data);
       this.setState({sessions: sessList});
-    })     
+    })  
+    socket.on('user', res=>{
+      
+      alert(res);
+    })   
   }
     
   loadSessions(){
       
-    fetch('http://localhost:8080/session/sessions')
+    fetch('http://localhost:8000/session/sessions')
       .then(res => {
         if (res.status !== 200) {
           console.log('Error al cargar las sesiones.');
@@ -56,7 +60,7 @@ export default class Sessions extends Component{
     let path = `/session`;
     console.log(this.state.selectedSess.IDplayer1 !== localStorage.getItem('userId'))
     if(this.state.selectedSess.IDplayer1 !== localStorage.getItem('userId')){
-      fetch('http://localhost:8080/session/addPlayer/'+this.state.selectedSess._id,{
+      fetch('http://localhost:8000/session/addPlayer/'+this.state.selectedSess._id,{
         method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -94,9 +98,9 @@ export default class Sessions extends Component{
             <tr > 
             <th>Sesion</th>
             <th>Nivel</th>
-            <th>Creator</th>{/*
+            <th>Creator</th>
             <th>Othello</th>
-            <th>Memoria</th>*/}
+            <th>Memoria</th>
             </tr>
           </thead>
           <tbody>{this.state.sessions.map((item, key) => {
@@ -104,9 +108,9 @@ export default class Sessions extends Component{
                 <tr onClick={(e)=>this.handleClick(key)} key = {key}>
                   <td>{item.name}</td>
                   <td>{item.boardSize}</td>
-                  <td>{item.IDplayer1}</td>{/*
-                  <td>{item.games.othello.num}</td>
-                  <td>{item.games.memory.num}</td>*/}
+                  <td>{item.IDplayer1}</td>
+                  <td>{item.games[0]}</td>
+                  <td>{item.games[1]}</td>
                 </tr>
               )
             })}</tbody>

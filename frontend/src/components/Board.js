@@ -1,8 +1,7 @@
 import React from 'react';
 import Square from './Square';
-import openSocket from 'socket.io-client';
+import {socket} from './Header';
 import '../styles/style.css';
-import { resolveSoa } from 'dns';
 
 export default class Board extends React.Component{
   constructor(props){
@@ -21,8 +20,7 @@ export default class Board extends React.Component{
   componentDidMount(){
     let idSocket = this.state.game._id;
     console.log('idGame: 0', idSocket, '<<<<<<<');
-    const socket = openSocket('http://localhost:8080');
-    
+    console.log(this.props.location.state.game,'>>><<<<')
     this.checkMove()
     this.drawBoard();
 
@@ -31,16 +29,17 @@ export default class Board extends React.Component{
     })
   }
 
+  
   handleClick(x,y){
     let url = '';
     console.log('x--> ',x,'y--> ',y);
 
     if(this.state.game.type === 'othello'){
-      url = 'http://localhost:8080/othello/gamePlay/';
+      url = 'http://localhost:8000/othello/gamePlay/';
       this.checkMove(url, x, y);
 
     }else if (this.state.game.type === 'memory'){
-      url = 'http://localhost:8080/memory/gamePlay/'; 
+      url = 'http://localhost:8000/memory/gamePlay/'; 
       this.checkMove(url, x, y);
     }
     else{
