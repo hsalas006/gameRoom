@@ -43,7 +43,7 @@ export default class NewSession extends Component{
                 name: event.target.elements.name.value,
                 IdPlayer1: localStorage.getItem('userId'),
                 IdPlayer2: null,
-                games: [event.target.elements.memory.value,event.target.elements.othello.value],
+                games: [event.target.elements.memory.value, event.target.elements.othello.value],
                 boardSize: event.target.elements.size.value,
                 score: 0
             })

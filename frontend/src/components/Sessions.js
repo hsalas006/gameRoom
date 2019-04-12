@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import {Table} from 'react-bootstrap';
-import Session from './Session';
+import {socket} from './Header';
 
 export default class Sessions extends Component{
   constructor(props){
@@ -18,7 +18,12 @@ export default class Sessions extends Component{
   }
     
   componentDidMount() {
-    this.loadSessions();      
+    this.loadSessions(); 
+    socket.on('new_session', data=>{
+      const sessList = this.state.sessions;
+      sessList.unshift(data);
+      this.setState({sessions: sessList});
+    })     
   }
     
   loadSessions(){

@@ -1,4 +1,5 @@
 const Session = require('../models/session');
+const io = require('../socket');
 
 exports.postSession = async(req, res, next)=>{
     const name = req.body.name;
@@ -18,14 +19,12 @@ exports.postSession = async(req, res, next)=>{
         boardSize: boardSize,
         score: score
     })
-    console.log(IDplayer1);
     session.save().then(result =>{
-        console.log(result);
         res.status(201).json({
             message: 'sesion creada correctamente.',
             post: result
         });
-        console.log(this)
+        io.getIO().emit('new_session', result)
     }).catch(err =>{
         console.log(err);
     });
@@ -57,8 +56,7 @@ exports.getSession = async(req, res, next)=>{
         })
 };
 exports.addGame = (req, res, next) => {
-    let list = req.body.game;
-    console.log('game ------>>>', list)
+    let idGames = req.body.idGames;
     Session.findByIdAndUpdate(req.body.idSession) 
         .then(session =>{
             if(!session){
@@ -66,12 +64,8 @@ exports.addGame = (req, res, next) => {
                 error.statusCode = 404;
                 throw error;
             }
-
-            session.games = [list];
-            console.log('othellos2 ------>>>', session.games.othello.idGames)
-            
-            session.currentGame = list[0];
-            console.log('3333333 ', session)
+            session.games = idGames;  
+            session.currentGame = idGames[0];
             return session.save();
         })
         .then(result =>{

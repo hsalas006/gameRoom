@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import openSocket from 'socket.io-client';
+import {socket} from './Header';
 
 export default class Sessions extends Component{
 
@@ -12,23 +13,28 @@ export default class Sessions extends Component{
             player1: '',
             player2: '',
             session: {},
-            othello: '',
+            othello: 0,
+            memory: 0,
             idGames:[],
-            memory: '',
             currentGame: '',
             initialized: false
           };
           this.createGame = this.createGame.bind(this);
           this.displayGame = this.displayGame.bind(this);
           this.addGame = this.addGame.bind(this);
+          this.createAllGames = this.createAllGames.bind(this);
+          this.loadSession = this.loadSession.bind(this);
+
       }
     
     componentDidMount() {
         this.loadSession();
+        socket.emit("iniciando socket");
+        socket.on('prueba de socket', localStorage.getItem('userId'));
     }
 
     loadSession(){
-        console.log('>>>>> ::: ', this.props.location.state.idSession)
+
         fetch('http://localhost:8080/session/'+ this.props.location.state.idSession)
         .then(res => {
             if (res.status !== 200) {
@@ -37,36 +43,38 @@ export default class Sessions extends Component{
             return res.json();
         })
         .then(resData => {
-            console.log(';;;;;;; ', resData.session)
-            this.setState({
-                session: resData.session,
-                player1: resData.session.IDplayer1,
-                player2: resData.session.IDplayer2,
-                othello: resData.session.games[1],
-                memory: resData.session.games[0],
-                currentGame: resData.session.currentGame,
-            });
+            if(resData.session)
+            {
+                this.setState({
+                    session: resData.session,
+                    player1: resData.session.IDplayer1,
+                    player2: resData.session.IDplayer2,
+                    othello: resData.session.games[0],
+                    memory: resData.session.games[1],
+                    idGames: resData.session.games,
+                    currentGame: resData.session.currentGame,
+                });
+            }
         })
-        .then(()=>this.createAllGames())
         .catch(err=>{console.log(err)});
     }
     
     createAllGames(){
         
         //if(this.state.player2 !== null && this.initialized === false){
-
             for(let i=0; i< this.state.othello; i++){
                 this.createGame('http://localhost:8080/othello/newgame', 'othello');
             }
             for(let i=0; i< this.state.memory; i++){
                 this.createGame('http://localhost:8080/memory/newgame', 'memory');
+                
             }
             this.setState({initialized: true});
+            
         //}
     }
 
     addGame(){
-        console.log(this.state.game, '---------')
         fetch('http://localhost:8080/session/newgameInsession/' + this.state.idSession,{
             method: 'PUT',
             headers: {
@@ -87,8 +95,7 @@ export default class Sessions extends Component{
           });     
     }
 
-    createGame(url, type){
-        console.log(url)
+    createGame(url, type){  
         fetch(url, {
             method: 'POST',
             headers: {
@@ -105,11 +112,14 @@ export default class Sessions extends Component{
         }).then(res=>{
             return res.json();
         }).then(data=>{
-            let list = this.state.games.concat(data.post._id)
-            this.setState({
-                idGames: list
-            })
-            console.log(this.state.idGames)     
+            if(data.post)
+            {
+                let list = this.state.idGames.concat(data.post._id)
+                this.setState({
+                    idGames: list
+                })
+            }
+            console.log('juegos: ',this.state.idGames)    
         })
         .catch(err=>{
             console.log(err)
@@ -131,14 +141,20 @@ export default class Sessions extends Component{
                     </div>
                     
                     <div>
-                        <ul class="list-group">{
-                            this.state.idGames.map((elm, i) =>{
-                                console.log(elm)
-                                return(<li class="list-group-item">Juego {i+1} ID: {elm}</li>)
-                            })
-                        }
-                            
-                        </ul>
+                    <button onClick={this.createAllGames} className="btn btn-primary">crear</button>
+                    <button onClick={this.addGame} className="btn btn-primary">guardar</button>
+                    <div>
+                        {this.state.initialized ?
+                            <ul className="list-group">{
+                                this.state.idGames.map((elm, i) =>{
+                                    if(i>1) return(<li key={i} className="list-group-item">Juego {i-1} ID: {elm}</li>)
+                                })
+                            }
+                            </ul>
+                            : null  
+                        }  
+                    </div>
+                        
                      
                     </div>
                     <div className="card-body">

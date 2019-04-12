@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase';
+import openSocket from 'socket.io-client';
 
+var socket;
 export default class Header extends Component {
   constructor(props) {
       super(props);
@@ -12,6 +14,7 @@ export default class Header extends Component {
         email: ''
       }
       this.componentDidUpdate = this.componentDidUpdate.bind();
+      socket = openSocket('http://localhost:8080');
   }
 
   componentDidUpdate(){
@@ -88,3 +91,4 @@ export default class Header extends Component {
     );
   }
 }
+export { Header, socket };
