@@ -48,7 +48,6 @@ exports.move = (matrix,row, col, player, size) => {
 
 // function to call each possible way to check the move
 checkMove = (matrix, row, col, player, size)=>{
-    let matrixRes = matrix;
     let up = false;
     let down = false;
     let left = false;
@@ -130,8 +129,25 @@ exports.score = (matrix, size) =>{
     // the return is an Array with the 2 scores
     return score;  
 };
-    
-exports.winner =()=>{};
+
+exports.winner =(player, matrix, size)=>{
+    let move=false;
+    let contr;
+
+    if(player===1) {contr=2;}
+    else {contr=1;}
+    console.log('contrario: ', contr);
+
+    for (row = 0; row < size; row++) {
+        for (col = 0; col < size; col++) {
+            if (matrix[row][col] == 0) {
+                return move = validMove(matrix, row, col, player, contr, size - 1);
+            } 
+      }
+    } 
+    console.log('validMoves: ', move); 
+    return move;  
+};
 
 exports.automaticPlay =()=>{};
         
@@ -304,80 +320,117 @@ downUpRight = (matrix, row, col, player1, player2, size) => {
     return matrix, check;
 }
 
-/*
-// function to check the move up-down-right 
-validMove = (matrix, row, col, player1, player2, size) => {
+
+// function to check if exist a move 
+validMove = (matrix, row, col, player, contr, size) => {
     var check = false;
-    var destRow = row;
+
+    var destRow = row-1;
     var destCol = col;
-    if (matrix[row][col] == player2) {
-        switch (move){
-            case 'up':
-                while ((matrix[destRow][destCol] == player2) & (destRow > 0)) {
-                    destRow--;
-                }
-    
-                if (matrix[destRow][destCol] == player1) {
-                    check = true;
-                }
-                else{
-                    destRow = row;
-                    destCol = col;
-                }
-                break;
-            case 'down':
-                while ((matrix[destRow][destCol] == player2) & (destRow < size)) {
-                    destRow++;
-                }
-                if (matrix[destRow][destCol] == player1) {
-                    check = true;
-                }
-                else{
-                    destRow = row;
-                    destCol = col;
-                }
-                break;
-            case 'left':
-                while ((matrix[destRow][destCol] == player2) & (destRow > 0) & (destCol > 0)) {
-                    destRow++;
-                    destCol++;
-                }
-                if (matrix[destRow][destCol] == player1) {
-                    check = true;
-                }
-                else{
-                    destRow = row;
-                    destCol = col;
-                }
-                break;
-            case 'right':
-                while ((matrix[destRow][destCol] == player2) & (destRow > 0) & (destCol < size)) {
-                    destRow--;
-                    destCol++;
-                }
-                if (matrix[destRow][destCol] == player1) {
-                    check = true;
-                }
-                else{
-                    destRow = row;
-                    destCol = col;
-                }
-                break;
-        }
-        while ((matrix[row][col] == player2) & (row < size) & (col < size)) {
-            row++;
-            col++;
-        }
-        if (matrix[row][col] == player1) {
-            row--;
-            col--;
-            while (matrix[row][col] == player2) {
-                matrix[row][col] = player1;
-                check = true;
-                row--;
-                col--;
+
+    if (destRow >= 0 ) {
+        if((matrix[destRow][destCol] == contr)){
+        
+            while ((matrix[destRow][destCol] == contr) & (destRow > 0)) {
+                destRow--;
+            }
+
+            if (matrix[destRow][destCol] == player) {
+                return true;
             }
         }
     }
+    destRow = row+1;
+    
+    if (destRow <= size) {
+        if((matrix[destRow][destCol] == contr)){
+
+            while ((matrix[destRow][destCol] == contr) & (destRow <= size)) {
+                destRow++;
+            }
+            if (matrix[destRow][destCol] == player) {
+                return true;
+            }
+        }
+    }
+    destCol = col-1;
+    if (destCol >= 0) {
+        if((matrix[destRow][destCol] == contr)){
+            while ((matrix[destRow][destCol] == contr) & (destCol > 0)) {
+                destCol--;
+            }
+            if (matrix[destRow][destCol] == player) {
+                return true;
+            }
+        }
+    }
+    destCol = col+1;
+    if (destCol <= size)  {
+        if((matrix[destRow][destCol] == contr)){   
+        
+            while ((matrix[destRow][destCol] == contr) & (destCol <= size)) {
+                destCol++;
+            }
+            if (matrix[destRow][destCol] == player) {
+                return true;
+            }
+        }
+    }  
+    destRow = row-1;
+    destCol = col-1;  
+    if ((destCol >= 0) & (destCol >= 0))  {
+        if((matrix[destRow][destCol] == contr)){  
+            while ((matrix[destRow][destCol] == contr) & (destRow > 0) & (destCol > 0)) {
+                destRow--;
+                destCol--;
+            }
+
+            if (matrix[destRow][destCol] == player) {
+                return true;
+            }
+        }
+    }
+    destRow = row+1;
+    destCol = col-1;
+    if ((destCol <= size) & (destCol >= 0))  {
+        if((matrix[destRow][destCol] == contr)){ 
+            while ((matrix[destRow][destCol] == contr) & (destRow < size) & (destCol > 0)) {
+                destRow++;
+                destCol--;
+            }
+            if (matrix[destRow][destCol] == player) {
+                return true;
+            }
+        }
+    }    
+    destRow = row-1;
+    destCol = col+1;
+    console.log('row: ', destRow, 'col: ', destCol)
+    if ((destRow >= 0) & (destCol <= size))  {
+        if((matrix[destRow][destCol] == contr)){  
+            while ((matrix[destRow][destCol] == contr) & (destCol < size) & (destCol > 0)) {
+                destCol++;
+                destRow--;
+            }
+            if (matrix[destRow][destCol] == player) {
+                return true;
+            }
+        }
+    }
+    destRow = row+1;
+    destCol = col+1;
+    if ((destRow <=size) & (destCol<=size))  {
+        if((matrix[destRow][destCol] == contr)){  
+        
+            while ((matrix[destRow][destCol] == contr) & (destCol < size) & (destCol < size)) {
+                destCol++;
+                destCol++;
+            }
+            if (matrix[destRow][destCol] == player) {
+                return true;
+            }    
+        }      
+    }
+
     return check;
-}*/
+}

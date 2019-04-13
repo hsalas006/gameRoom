@@ -111,7 +111,12 @@ exports.playGame = async(req,res,next) =>{
       })
   }
   else{
-    res.status(406).json({ message: 'Movimiento no aceptado!', valid: false });
+    console.log('matrix: ', req.body.matrix)
+    let end= logic.winner(player, req.body.matrix, size);
+    console.log('end: ', end)
+    console.log('turn: ', req.body.turn)
+    console.log('player: ', player)
+    res.status(406).json({ message: 'Movimiento no aceptado!', valid: false, end: end});
     console.log('movimiento invalido.');    
   }
 

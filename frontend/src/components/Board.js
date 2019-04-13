@@ -28,11 +28,11 @@ export default class Board extends React.Component{
     socket.on(idSocket.toString(), data =>{
       let player1, player2;
       if(data.game.turn === 2){
-        player1 = 'light';
-        player2 = 'success';
-      }else{
         player1 = 'success';
         player2 = 'light';
+      }else{
+        player1 = 'light';
+        player2 = 'success';
       }
 
       this.setState({game: data.game, grid: data.game.matrix, turn:data.game.turn, player1: player1, player2: player2});
@@ -89,6 +89,7 @@ export default class Board extends React.Component{
 
             this.setState({game: data.game, turn: data.game.turn, grid: data.game.matrix});
             this.drawBoard();
+            
           }
         })
         .catch(err=>{
@@ -110,7 +111,7 @@ export default class Board extends React.Component{
             case 1:{
               return (
                 <div className="boxGame" key={i+'_'+j} data-index={i+'_'+j} onClick={()=>this.handleClick(i,j)}>
-                  <div className= "innerGame" key={i+'*'+j}>{black}
+                  <div className= "innerGame" key={i+'*'+j}>{white}
                   </div>
                 </div>
               )
@@ -118,7 +119,7 @@ export default class Board extends React.Component{
             case 2:{
               return (
                 <div className="boxGame" key={i+'_'+j} data-index={i+'_'+j} onClick={()=>this.handleClick(i,j)}>
-                  <div className= "innerGame" key={i+'*'+j}>{white}
+                  <div className= "innerGame" key={i+'*'+j}>{black}
                   </div>
                 </div>
               )
@@ -161,8 +162,10 @@ export default class Board extends React.Component{
             <h6 className="alert-heading text-center">Negras: {this.state.game.score[0]}  /  Blancas: {this.state.game.score[1]}</h6>
             
           </div>
-          <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
-          <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+            Abrir Chat
+          </button>
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <Chat></Chat>
           </div>
       </div>
