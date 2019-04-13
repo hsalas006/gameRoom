@@ -2,16 +2,16 @@ import React from 'react';
 import Square from './Square';
 import {socket} from './Header';
 import '../styles/style.css';
-
+import Chat from './Chat';
 export default class Board extends React.Component{
   constructor(props){
     super(props);
     this.state = {
       game: this.props.location.state.game,
-      turn: 1,    
+      turn: this.props.location.state.game.turn,    
       grid: this.props.location.state.game.matrix,
       player1: 'success',
-      player2: 'danger'
+      player2: 'light'
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -31,11 +31,11 @@ export default class Board extends React.Component{
       let player1, player2;
       console.log('>>>> ', data)
       if(data.game.turn === 2){
-        player1 = 'danger';
+        player1 = 'light';
         player2 = 'success';
       }else{
         player1 = 'success';
-        player2 = 'danger';
+        player2 = 'light';
       }
 
       this.setState({game: data.game, grid: data.game.matrix, turn:data.game.turn, player1: player1, player2: player2});
@@ -69,7 +69,6 @@ export default class Board extends React.Component{
     let size = this.state.game.size;
     let id = this.state.game._id;
 
-    console.log(this.state.game._id, '<<<---**');
     fetch(url + id, {
             method: 'PUT',
             headers: {
@@ -151,16 +150,23 @@ export default class Board extends React.Component{
         </div> 
         <br></br>
           <div className="alert alert-info col-md-6 offset-md-3 bg-light text-dark" role="alert">
-            <h4 className="alert-heading">Turno:</h4>
+            <h4 className="alert-heading">Turno:  </h4>
             <hr></hr>
             <p className="mb-0">
             <div className={`alert alert-${this.state.player1}`} role="alert">
-              Jugador 1 - ID: {this.state.game.IDplayer1}
+              Negras - ID: {this.state.game.IDplayer1} - 
             </div>
             <div className={`alert alert-${this.state.player2}`} role="alert">
-              Jugador 2 - ID: {this.state.game.IDplayer2}
+              Blancas - ID: {this.state.game.IDplayer2} - 
             </div>
             </p>
+            <hr></hr>
+            <h6 className="alert-heading text-center">Negras: {this.state.game.score[0]}  /  Blancas: {this.state.game.score[1]}</h6>
+            
+          </div>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <Chat></Chat>
           </div>
       </div>
     )

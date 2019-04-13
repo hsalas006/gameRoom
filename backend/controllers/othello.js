@@ -85,7 +85,7 @@ exports.playGame = async(req,res,next) =>{
     // find and save the info in the db
     console.log(score, '------');
     console.log('idGame:', idGame, '****--****')
-    Othello.findById(idGame)
+    Othello.findByIdAndUpdate(idGame)
       .then(game => {
         if (!game) {
           const error = new Error('No se encontro el juego');
