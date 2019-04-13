@@ -10,6 +10,8 @@ export default class Board extends React.Component{
       game: this.props.location.state.game,
       turn: 1,    
       grid: this.props.location.state.game.matrix,
+      player1: 'success',
+      player2: 'danger'
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -26,7 +28,18 @@ export default class Board extends React.Component{
 
     socket.on(idSocket.toString(), data =>{
       console.log('----*******************************************-: ', data.action, '-- ', idSocket);
-      this.setState({game: data.game, grid: data.game.matrix, turn:data.turn});
+      let player1, player2;
+      console.log('>>>> ', data)
+      if(data.game.turn === 2){
+        player1 = 'danger';
+        player2 = 'success';
+      }else{
+        player1 = 'success';
+        player2 = 'danger';
+      }
+
+      this.setState({game: data.game, grid: data.game.matrix, turn:data.game.turn, player1: player1, player2: player2});
+      
       this.drawBoard();
     })
   }
@@ -132,9 +145,24 @@ export default class Board extends React.Component{
   render(){
 
     return (
-      <div className="gridGame">
-        {this.drawBoard()}
-      </div> 
+      <div>
+        <div className="gridGame">
+          {this.drawBoard()}
+        </div> 
+        <br></br>
+          <div className="alert alert-info col-md-6 offset-md-3 bg-light text-dark" role="alert">
+            <h4 className="alert-heading">Turno:</h4>
+            <hr></hr>
+            <p className="mb-0">
+            <div className={`alert alert-${this.state.player1}`} role="alert">
+              Jugador 1 - ID: {this.state.game.IDplayer1}
+            </div>
+            <div className={`alert alert-${this.state.player2}`} role="alert">
+              Jugador 2 - ID: {this.state.game.IDplayer2}
+            </div>
+            </p>
+          </div>
+      </div>
     )
   }
 }
