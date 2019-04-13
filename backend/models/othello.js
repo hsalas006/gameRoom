@@ -28,6 +28,10 @@ const othelloSchema = new Schema({
         type: [],
         require: false
     },
+    level:{
+        type: Number,
+        required: false
+    },
     type:{
         type: String,
         require: false

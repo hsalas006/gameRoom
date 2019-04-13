@@ -58,6 +58,7 @@ export default class NewSession extends Component{
       const { validated } = this.state;
       return (
         <Form
+        className='justify-content-md-center'
           noValidate
           validated={validated}
           onSubmit={e => this.handleSubmit(e)}
@@ -65,7 +66,7 @@ export default class NewSession extends Component{
         <div className="jumbotron">
         <Col md={{ span: 6, offset: 3 }}>
         <h1 className="display-5 text-center">Crear nueva Sesion</h1>
-          <Form.Row>
+          <Form.Row className='justify-content-md-center'>
           <Form.Group md="6" controlId="validationSessionname">
           
               <Form.Label>Nombre de la Session</Form.Label>
@@ -87,7 +88,7 @@ export default class NewSession extends Component{
               
             </Form.Group>
           </Form.Row>
-          <Form.Row>
+          <Form.Row className='justify-content-md-center'>
             <Form.Group md="6" controlId="validationMemory">
               <Form.Label>Juegos de Memoria</Form.Label>
               <Form.Control type="number" placeholder="Memory" name="memory" required />
@@ -103,7 +104,7 @@ export default class NewSession extends Component{
               </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>
-          <Form.Row>
+          <Form.Row className='justify-content-md-center'>
           <Form.Group md="6" controlId="validationSessionname">
               <Form.Label>Tamaño del Tablero</Form.Label>
               <InputGroup>
@@ -123,7 +124,7 @@ export default class NewSession extends Component{
               </InputGroup>
             </Form.Group>
           </Form.Row>
-          <Form.Group>
+          <Form.Group className='justify-content-md-center'>
             <Form.Check
               required
               label="Esta deacuerdo con las condiciones"

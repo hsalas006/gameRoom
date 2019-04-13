@@ -14,7 +14,8 @@ exports.postGame = async(req, res, next)=>{
     size: req.body.size,
     turn : req.body.IDplayer1,
     score : 0,
-    IDsession : req.body.IDsession
+    level: req.body.level,
+    IDsession : 0
   })
   console.log('----', othello)
   othello

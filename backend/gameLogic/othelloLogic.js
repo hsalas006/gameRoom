@@ -23,6 +23,7 @@ exports.createBoard = (size) => {
         }
     }
     // return the matrix with the first 2 chips 
+    console.log(matrix)
     return matrix;
 }
 

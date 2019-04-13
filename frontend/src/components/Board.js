@@ -20,16 +20,13 @@ export default class Board extends React.Component{
   }
 
   componentDidMount(){
+    console.log('prueba1- ', this.props.location.state.game)
     let idSocket = this.state.game._id;
-    console.log('idGame: 0', idSocket, '<<<<<<<');
-    console.log(this.props.location.state.game,'>>><<<<')
-    this.checkMove()
+    //this.checkMove();
     this.drawBoard();
 
     socket.on(idSocket.toString(), data =>{
-      console.log('----*******************************************-: ', data.action, '-- ', idSocket);
       let player1, player2;
-      console.log('>>>> ', data)
       if(data.game.turn === 2){
         player1 = 'light';
         player2 = 'success';
@@ -152,20 +149,20 @@ export default class Board extends React.Component{
           <div className="alert alert-info col-md-6 offset-md-3 bg-light text-dark" role="alert">
             <h4 className="alert-heading">Turno:  </h4>
             <hr></hr>
-            <p className="mb-0">
+            
             <div className={`alert alert-${this.state.player1}`} role="alert">
               Negras - ID: {this.state.game.IDplayer1} - 
             </div>
             <div className={`alert alert-${this.state.player2}`} role="alert">
               Blancas - ID: {this.state.game.IDplayer2} - 
             </div>
-            </p>
+            
             <hr></hr>
             <h6 className="alert-heading text-center">Negras: {this.state.game.score[0]}  /  Blancas: {this.state.game.score[1]}</h6>
             
           </div>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+          <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <Chat></Chat>
           </div>
       </div>

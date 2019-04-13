@@ -16,6 +16,7 @@ import Menu from './components/Menu';
 import NewSession from './components/NewSession';
 import Sessions from './components/Sessions';
 import Session from './components/Session';
+import NewGame from './components/NewGame';
 
 
 ReactDOM.render(
@@ -32,6 +33,7 @@ ReactDOM.render(
                 <Route exact path="/memory/:id" component={Board} />
                 <Route exact path="/othello/:id" component={Board} />
                 <Route exact path="/Square" component={Square} />
+                <Route exact path="/newGame" component={NewGame} />
             </App>
         </BrowserRouter>
     </Provider>,
