@@ -146,7 +146,9 @@ export default class Sessions extends Component{
                 IDplayer2 : this.state.session.IDplayer2,
                 size: this.state.session.boardSize,
                 turn : this.state.session.IDplayer1,
-                IDsession : this.state.session.IDsession            
+                IDsession : this.state.session.IDsession,
+                level: 0,
+                auto: false,
             })
         }).then(res=>{
             return res.json();

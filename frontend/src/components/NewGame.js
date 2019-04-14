@@ -45,7 +45,8 @@ export default class NewGame extends Component{
                 IDplayer2 : 'pc',
                 size: event.target.elements.size.value,
                 level : event.target.elements.level.value,
-                IDsession : 0
+                IDsession : 0,
+                auto: true
             })
         }).then(res=>{
             return res.json();

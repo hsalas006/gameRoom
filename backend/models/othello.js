@@ -32,6 +32,10 @@ const othelloSchema = new Schema({
         type: Number,
         required: false
     },
+    auto:{
+        type: Boolean,
+        required: false
+    },
     type:{
         type: String,
         require: false

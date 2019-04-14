@@ -10,8 +10,10 @@ export default class Board extends React.Component{
       game: this.props.location.state.game,
       turn: this.props.location.state.game.turn,    
       grid: this.props.location.state.game.matrix,
-      player1: 'success',
-      player2: 'light'
+      player1: '',
+      player2: '',
+      level:this.props.location.state.game.level, 
+      auto:this.props.location.state.game.auto
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -23,6 +25,15 @@ export default class Board extends React.Component{
     console.log('prueba1- ', this.props.location.state.game)
     let idSocket = this.state.game._id;
     //this.checkMove();
+    if(this.state.turn===1){
+      this.setState({player1:'light', player2: 'success'})
+    }
+    else{
+      if(this.state.auto){
+        this.handleClick(0,0)
+      }
+      this.setState({player1:'success', player2: 'light'})
+    }
     this.drawBoard();
 
     socket.on(idSocket.toString(), data =>{
@@ -30,6 +41,7 @@ export default class Board extends React.Component{
       if(data.game.turn === 2){
         player1 = 'success';
         player2 = 'light';
+        this.handleClick(0,0);
       }else{
         player1 = 'light';
         player2 = 'success';
@@ -41,7 +53,6 @@ export default class Board extends React.Component{
     })
   }
 
-  
   handleClick(x,y){
     let url = '';
     console.log('x--> ',x,'y--> ',y);
@@ -60,11 +71,13 @@ export default class Board extends React.Component{
   }
 
   checkMove(url, x, y){
-
-    
+ 
     let matrix = this.state.game.matrix;
     let size = this.state.game.size;
     let id = this.state.game._id;
+    let level= this.state.game.level;
+    let auto= this.state.game.auto;
+    console.log('>>>>>> ', this.state.game)
 
     fetch(url + id, {
             method: 'PUT',
@@ -79,17 +92,20 @@ export default class Board extends React.Component{
               matrix: matrix,
               turn: this.state.turn,
               size: size,
+              level: level,
+              auto: auto
             })
 
         }).then(res=>{
           return res.json();
         })
         .then(data =>{
+          console.log('turn: <<<<<<< ', data)
           if(data){
 
             this.setState({game: data.game, turn: data.game.turn, grid: data.game.matrix});
             this.drawBoard();
-            
+            if((this.state.turn===2)&(this.state.auto===true)) this.handleClick(0,0);
           }
         })
         .catch(err=>{
@@ -142,7 +158,9 @@ export default class Board extends React.Component{
   render(){
 
     return (
+      
       <div>
+        <button type="button" class="btn btn-success" onClick={this.handleClick}>Success</button>
         <div className="gridGame">
           {this.drawBoard()}
         </div> 
@@ -162,11 +180,15 @@ export default class Board extends React.Component{
             <h6 className="alert-heading text-center">Negras: {this.state.game.score[0]}  /  Blancas: {this.state.game.score[1]}</h6>
             
           </div>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-            Abrir Chat
-          </button>
-          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <Chat></Chat>
+          <div className="input-group mb-3">
+              <input type="text" className="form-control" placeholder="Escribir mensaje" aria-label="Escribir mensaje" aria-describedby="button-addon2"/>
+              <div className="input-group-append">
+                  <button className="btn btn-outline-primary" type="button" id="button-addon2" data-toggle="modal" data-target="#exampleModalCenter">Enviar</button>
+              </div>
+          </div>
+          
+          <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <Chat msn={this.state.msn}></Chat>
           </div>
       </div>
     )

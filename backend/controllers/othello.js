@@ -12,9 +12,10 @@ exports.postGame = async(req, res, next)=>{
     IDplayer2 : req.body.IDplayer2,
     matrix : matrix,
     size: req.body.size,
-    turn : req.body.IDplayer1,
+    turn : 1,
     score : 0,
     level: req.body.level,
+    auto: req.body.auto,
     IDsession : 0
   })
   console.log('----', othello)
@@ -72,12 +73,14 @@ exports.playGame = async(req,res,next) =>{
   let matrix = req.body.matrix;
   let player = req.body.turn;
   let size = req.body.size;
+  let auto = req.body.auto;
+  let level = req.body.level
   let valid;
   console.log('player <<<<<<<<<<<', player, '********')
 
-  matrix, valid = logic.move(matrix,row, col, player, size);
+  matrix, valid = logic.move(matrix,row, col, player, size, auto, level);
 
-  console.log(matrix, '*********', valid)
+  console.log(matrix, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', valid)
   // if the move is valid 
   console.log(valid)
   if(valid){
@@ -97,13 +100,16 @@ exports.playGame = async(req,res,next) =>{
           game.turn = 2;
         }else game.turn = 1;
 
+        console.log(game.turn, '>>>>>>>>>>')
+
         game.score = score;
         game.matrix = matrix;
         return game.save();
       })
       .then(result => {
         io.getIO().emit(result._id.toString(), {action: 'move', game:result});
-        res.status(200).json({ message: 'Movimiento exitoso!', game: result });    
+        res.status(200).json({ message: 'Movimiento exitoso!', game: result });   
+        console.log(result) 
       })
       .catch(err =>{
         console.log('error al encontrar el juego')

@@ -28,20 +28,26 @@ exports.createBoard = (size) => {
 }
 
 //function to check if the move is valid
-exports.move = (matrix,row, col, player, size) => {
+exports.move = (matrix,row, col, player, size, autoPlayer, level) => {
     let valid = false;
-    let turn =1;
     let matrixRes ='';
-    if(player !== 1){
-        turn=2;
-    }
-    if (matrix[row][col] == 0) {
-        matrixRes, valid = checkMove(matrix, row, col, turn, size);
 
-        if (valid == true) {
-            matrix[row][col] = turn;
-            return matrix,true;
-        } 
+    if ((autoPlayer === true)&(player === 2)) {
+        matrix, play = AutoPlayer(matrix, player, size, level);
+
+        if (play == true) {
+            return matrix, play;
+        }
+    }
+    else {
+        if (matrix[row][col] == 0) {
+            matrixRes, valid = checkMove(matrix, row, col, player, size);
+
+            if (valid == true) {
+                matrix[row][col] = player;
+                return matrix,true;
+            } 
+        }
     }
     return null, false;
 };
@@ -136,7 +142,6 @@ exports.winner =(player, matrix, size)=>{
 
     if(player===1) {contr=2;}
     else {contr=1;}
-    console.log('contrario: ', contr);
 
     for (row = 0; row < size; row++) {
         for (col = 0; col < size; col++) {
@@ -145,7 +150,7 @@ exports.winner =(player, matrix, size)=>{
             } 
       }
     } 
-    console.log('validMoves: ', move); 
+
     return move;  
 };
 
@@ -208,7 +213,6 @@ rightLeft = (matrix, row, col, player1, player2, size) => {
             }
         }
     }
-    console.log('---***', matrix, '****----', check);
     return matrix, check;
 }
 
@@ -228,7 +232,6 @@ leftRight = (matrix, row, col, player1, player2, size) => {
             }
         }
     }
-    console.log('---***', matrix, '****----', check);
     return matrix, check;
 }
 
@@ -324,6 +327,8 @@ downUpRight = (matrix, row, col, player1, player2, size) => {
 // function to check if exist a move 
 validMove = (matrix, row, col, player, contr, size) => {
     var check = false;
+    var movPoints=0;
+    var points= 0;
 
     var destRow = row-1;
     var destCol = col;
@@ -333,11 +338,16 @@ validMove = (matrix, row, col, player, contr, size) => {
         
             while ((matrix[destRow][destCol] == contr) & (destRow > 0)) {
                 destRow--;
+                points++;
             }
-
             if (matrix[destRow][destCol] == player) {
-                return true;
-            }
+                check= true;
+                points++;
+                movPoints += points;
+                points = 0;
+            } else {
+                points = 0;
+            } 
         }
     }
     destRow = row+1;
@@ -347,74 +357,111 @@ validMove = (matrix, row, col, player, contr, size) => {
 
             while ((matrix[destRow][destCol] == contr) & (destRow <= size)) {
                 destRow++;
+                points++;
             }
             if (matrix[destRow][destCol] == player) {
-                return true;
-            }
+                check= true;
+                points++;
+                movPoints += points;
+                points = 0;
+            } else {
+                points = 0;
+            } 
         }
     }
     destCol = col-1;
+    destRow = row;
     if (destCol >= 0) {
         if((matrix[destRow][destCol] == contr)){
             while ((matrix[destRow][destCol] == contr) & (destCol > 0)) {
                 destCol--;
+                points++;
             }
             if (matrix[destRow][destCol] == player) {
-                return true;
-            }
+                check= true;
+                points++;
+                movPoints += points;
+                points = 0;
+            } else {
+                points = 0;
+            } 
         }
     }
     destCol = col+1;
     if (destCol <= size)  {
+        
         if((matrix[destRow][destCol] == contr)){   
         
             while ((matrix[destRow][destCol] == contr) & (destCol <= size)) {
                 destCol++;
+                points++;
             }
             if (matrix[destRow][destCol] == player) {
-                return true;
-            }
+                check= true;
+                points++;
+                movPoints += points;
+                points = 0;
+            } else {
+                points = 0;
+            } 
         }
     }  
     destRow = row-1;
     destCol = col-1;  
-    if ((destCol >= 0) & (destCol >= 0))  {
+
+    if ((destRow >= 0) & (destCol >= 0))  {
         if((matrix[destRow][destCol] == contr)){  
             while ((matrix[destRow][destCol] == contr) & (destRow > 0) & (destCol > 0)) {
                 destRow--;
                 destCol--;
+                points++;
             }
-
             if (matrix[destRow][destCol] == player) {
-                return true;
-            }
+                check= true;
+                points++;
+                movPoints += points;
+                points = 0;
+            } else {
+                points = 0;
+            } 
         }
     }
     destRow = row+1;
     destCol = col-1;
-    if ((destCol <= size) & (destCol >= 0))  {
+    if ((destRow <= size) & (destCol >= 0))  {
         if((matrix[destRow][destCol] == contr)){ 
             while ((matrix[destRow][destCol] == contr) & (destRow < size) & (destCol > 0)) {
                 destRow++;
                 destCol--;
+                points++;
             }
             if (matrix[destRow][destCol] == player) {
-                return true;
-            }
+                check= true;
+                points++;
+                movPoints += points;
+                points = 0;
+            } else {
+                points = 0;
+            } 
         }
     }    
     destRow = row-1;
     destCol = col+1;
-    console.log('row: ', destRow, 'col: ', destCol)
     if ((destRow >= 0) & (destCol <= size))  {
         if((matrix[destRow][destCol] == contr)){  
             while ((matrix[destRow][destCol] == contr) & (destCol < size) & (destCol > 0)) {
                 destCol++;
                 destRow--;
+                points++;
             }
             if (matrix[destRow][destCol] == player) {
-                return true;
-            }
+                check= true;
+                points++;
+                movPoints += points;
+                points = 0;
+            } else {
+                points = 0;
+            } 
         }
     }
     destRow = row+1;
@@ -425,12 +472,101 @@ validMove = (matrix, row, col, player, contr, size) => {
             while ((matrix[destRow][destCol] == contr) & (destCol < size) & (destCol < size)) {
                 destCol++;
                 destCol++;
+                points++;
             }
             if (matrix[destRow][destCol] == player) {
-                return true;
-            }    
+                check= true;
+                points++;
+                movPoints += points;
+                points = 0;
+            } else {
+                points = 0;
+            } 
         }      
     }
 
-    return check;
+    return {movPoints:movPoints, check:check};
+}
+
+AutoPlayer = (matrix, player, size, level) => {
+    var valMov;
+    let finalMov=0;
+    let contr;
+    let row=0;
+    let col=0;
+    let rand=0;
+
+    if(player===1)contr=2;
+    else contr=1;
+
+    for (r = 0; r < size; r++) {
+        for (c = 0; c < size; c++) {
+            if (matrix[r][c] == 0) {
+                valMov = validMove(matrix, r, c, player, contr, size-1);
+
+                rand = Math.floor(Math.random() * 2) + 1; 
+
+                if (level == 1) {
+                    if ((valMov.movPoints != 0) ) {
+                        if (finalMov == 0) {
+                            finalMov = valMov.movPoints;
+                            row = r;
+                            col = c;
+                        } else {
+                            if (rand == 1 & (valMov.movPoints <= finalMov)) {
+                                finalMov = valMov.movPoints;
+                                row = r;
+                                col = c;
+                            }
+                        }
+                    }
+                }
+
+                if (level == 2) {
+                    if (valMov.movPoints != 0) {
+                        if (finalMov == 0) {
+                            finalMov = valMov.movPoints;
+                            row = r;
+                            col = c;
+                        } else {
+                            if (rand == 1) {
+                                finalMov = valMov.movPoints;
+                                row = r;
+                                col = c;
+                            }
+                        }
+                    }
+                }
+
+                if (level == 3) {
+                    if ((valMov.movPoints != 0) & (valMov.movPoints >= finalMov)) {
+                        if (finalMov == 0) {
+                            finalMov = valMov.movPoints;
+                            row = r;
+                            col = c;
+                        } else {
+                            if (rand == 1) {
+                                finalMov = valMov.movPoints;
+                                row = r;
+                                col = c;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if ((row == 0) & (col == 0) & (matrix[row][col] != 0)) {
+        return false;
+    }
+
+    valMov = checkMove(matrix, row, col, player, size-1);
+
+    if (valMov === true) {
+        matrix[row][col] = player;
+        return true;
+    } else {
+        return false;
+    }
+
 }
