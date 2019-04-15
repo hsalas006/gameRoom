@@ -76,19 +76,14 @@ exports.playGame = async(req,res,next) =>{
   let auto = req.body.auto;
   let level = req.body.level
   let valid;
-  console.log('player <<<<<<<<<<<', player, '********')
 
   matrix, valid = logic.move(matrix,row, col, player, size, auto, level);
 
-  console.log(matrix, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', valid)
-  // if the move is valid 
-  console.log(valid)
   if(valid){
     // calc the score
     let score = logic.score(matrix, size);
     // find and save the info in the db
-    console.log(score, '------');
-    console.log('idGame:', idGame, '****--****')
+
     Othello.findByIdAndUpdate(idGame)
       .then(game => {
         if (!game) {
@@ -100,8 +95,6 @@ exports.playGame = async(req,res,next) =>{
           game.turn = 2;
         }else game.turn = 1;
 
-        console.log(game.turn, '>>>>>>>>>>')
-
         game.score = score;
         game.matrix = matrix;
         return game.save();
@@ -109,7 +102,6 @@ exports.playGame = async(req,res,next) =>{
       .then(result => {
         io.getIO().emit(result._id.toString(), {action: 'move', game:result});
         res.status(200).json({ message: 'Movimiento exitoso!', game: result });   
-        console.log(result) 
       })
       .catch(err =>{
         console.log('error al encontrar el juego')
@@ -117,9 +109,8 @@ exports.playGame = async(req,res,next) =>{
       })
   }
   else{
-    console.log('matrix: ', req.body.matrix)
     let end= logic.winner(player, req.body.matrix, size);
-    console.log('end: ', end)
+    console.log('end: ', end.check)
     console.log('turn: ', req.body.turn)
     console.log('player: ', player)
     res.status(406).json({ message: 'Movimiento no aceptado!', valid: false, end: end});

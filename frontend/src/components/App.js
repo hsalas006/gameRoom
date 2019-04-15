@@ -9,10 +9,10 @@ export default (props) => {
     <div>
       <Header />
       
-      <div className="container">{
+      <div className="container">
 
-      }
-        { props.children } + { console.log(props.children) }
+      
+        { props.children }
       </div>
     </div>
   );

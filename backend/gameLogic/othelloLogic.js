@@ -77,7 +77,8 @@ checkMove = (matrix, row, col, player, size)=>{
     }
 
     // up-down 
-    if (row != size - 1) { 
+    if (row != size-1) { 
+        console.log('checkeo de error: ', col)
         matrix, down = upDown(matrix, row + 1, col, player, player2, size - 1);
     }
 
@@ -87,7 +88,7 @@ checkMove = (matrix, row, col, player, size)=>{
     }
 
     // left-right   
-    if (col != size - 1) {
+    if (col != size-1) {
         matrix, right = leftRight(matrix, row, col + 1, player, player2, size - 1);
     }
 
@@ -97,17 +98,17 @@ checkMove = (matrix, row, col, player, size)=>{
     }
 
     // down-up-right
-    if ((row != 0) & (col != size - 1)) {
+    if ((row != 0) & (col != size-1)) {
         matrix, upRight = downUpRight(matrix, row - 1, col + 1, player, player2, size - 1);
     }
 
     // up-down-left
-    if ((row != size - 1) & (col != 0)) {
+    if ((row != size-1) & (col != 0)) {
         matrix, downLeft = upDownLeft(matrix, row + 1, col - 1, player, player2, size - 1);
     }
     
     // up-down-right
-    if ((row != size - 1) & (col != size - 1)) {
+    if ((row != size-1 ) & (col != size-1 )) {
         matrix, downRight = upDownRight(matrix, row + 1, col + 1, player, player2, size - 1);
     }
 
@@ -181,6 +182,7 @@ downUp = (matrix, row, col, player1, player2) => {
 // function to check the move up-down 
 upDown = (matrix, row, col, player1, player2, size) => {
     var check = false;
+    console.log('checkeo de error: ', typeof col)
     if (matrix[row][col] == player2) {
         while ((matrix[row][col] == player2) & (row < size)) {
             row++;
@@ -238,6 +240,7 @@ leftRight = (matrix, row, col, player1, player2, size) => {
 // function to check the move up-down-left 
 upDownLeft = (matrix, row, col, player1, player2, size) => {
     var check = false;
+    console.log(matrix, 'prueba de matrix ')
     if (matrix[row][col] == player2) {
         while ((matrix[row][col] == player2) & (row < size) & (col > 0)) {
             row++;
@@ -333,7 +336,7 @@ validMove = (matrix, row, col, player, contr, size) => {
     var destRow = row-1;
     var destCol = col;
 
-    if (destRow >= 0 ) {
+    if (destRow > 0 ) {
         if((matrix[destRow][destCol] == contr)){
         
             while ((matrix[destRow][destCol] == contr) & (destRow > 0)) {
@@ -352,10 +355,10 @@ validMove = (matrix, row, col, player, contr, size) => {
     }
     destRow = row+1;
     
-    if (destRow <= size) {
+    if (destRow < size) {
         if((matrix[destRow][destCol] == contr)){
 
-            while ((matrix[destRow][destCol] == contr) & (destRow <= size)) {
+            while ((matrix[destRow][destCol] == contr) & (destRow < size)) {
                 destRow++;
                 points++;
             }
@@ -371,7 +374,7 @@ validMove = (matrix, row, col, player, contr, size) => {
     }
     destCol = col-1;
     destRow = row;
-    if (destCol >= 0) {
+    if (destCol > 0) {
         if((matrix[destRow][destCol] == contr)){
             while ((matrix[destRow][destCol] == contr) & (destCol > 0)) {
                 destCol--;
@@ -388,11 +391,11 @@ validMove = (matrix, row, col, player, contr, size) => {
         }
     }
     destCol = col+1;
-    if (destCol <= size)  {
+    if (destCol < size)  {
         
         if((matrix[destRow][destCol] == contr)){   
         
-            while ((matrix[destRow][destCol] == contr) & (destCol <= size)) {
+            while ((matrix[destRow][destCol] == contr) & (destCol < size)) {
                 destCol++;
                 points++;
             }
@@ -409,7 +412,7 @@ validMove = (matrix, row, col, player, contr, size) => {
     destRow = row-1;
     destCol = col-1;  
 
-    if ((destRow >= 0) & (destCol >= 0))  {
+    if ((destRow > 0) & (destCol > 0))  {
         if((matrix[destRow][destCol] == contr)){  
             while ((matrix[destRow][destCol] == contr) & (destRow > 0) & (destCol > 0)) {
                 destRow--;
@@ -428,7 +431,7 @@ validMove = (matrix, row, col, player, contr, size) => {
     }
     destRow = row+1;
     destCol = col-1;
-    if ((destRow <= size) & (destCol >= 0))  {
+    if ((destRow < size) & (destCol > 0))  {
         if((matrix[destRow][destCol] == contr)){ 
             while ((matrix[destRow][destCol] == contr) & (destRow < size) & (destCol > 0)) {
                 destRow++;
@@ -447,9 +450,9 @@ validMove = (matrix, row, col, player, contr, size) => {
     }    
     destRow = row-1;
     destCol = col+1;
-    if ((destRow >= 0) & (destCol <= size))  {
+    if ((destRow > 0) & (destCol < size))  {
         if((matrix[destRow][destCol] == contr)){  
-            while ((matrix[destRow][destCol] == contr) & (destCol < size) & (destCol > 0)) {
+            while ((matrix[destRow][destCol] == contr) & (destCol < size) & (destRow > 0)) {
                 destCol++;
                 destRow--;
                 points++;
@@ -466,10 +469,10 @@ validMove = (matrix, row, col, player, contr, size) => {
     }
     destRow = row+1;
     destCol = col+1;
-    if ((destRow <=size) & (destCol<=size))  {
+    if ((destRow <size) & (destCol<size))  {
         if((matrix[destRow][destCol] == contr)){  
         
-            while ((matrix[destRow][destCol] == contr) & (destCol < size) & (destCol < size)) {
+            while ((matrix[destRow][destCol] == contr) & (destCol < size) & (destRow < size)) {
                 destCol++;
                 destCol++;
                 points++;
@@ -559,8 +562,8 @@ AutoPlayer = (matrix, player, size, level) => {
     if ((row == 0) & (col == 0) & (matrix[row][col] != 0)) {
         return false;
     }
-
-    valMov = checkMove(matrix, row, col, player, size-1);
+    console.log('check matrix >>> ', size)
+    valMov = checkMove(matrix, row, col, player, size);
 
     if (valMov === true) {
         matrix[row][col] = player;

@@ -13,7 +13,8 @@ export default class Board extends React.Component{
       player1: '',
       player2: '',
       level:this.props.location.state.game.level, 
-      auto:this.props.location.state.game.auto
+      auto:this.props.location.state.game.auto,
+      end: false
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -101,11 +102,14 @@ export default class Board extends React.Component{
         })
         .then(data =>{
           console.log('turn: <<<<<<< ', data)
-          if(data){
+          if(data.game){
 
             this.setState({game: data.game, turn: data.game.turn, grid: data.game.matrix});
             this.drawBoard();
             if((this.state.turn===2)&(this.state.auto===true)) this.handleClick(0,0);
+          }
+          else if(data.end.check){
+            this.setState({end:true})
           }
         })
         .catch(err=>{
@@ -160,9 +164,27 @@ export default class Board extends React.Component{
     return (
       
       <div>
-        <button type="button" class="btn btn-success" onClick={this.handleClick}>Success</button>
         <div className="gridGame">
           {this.drawBoard()}
+          <div>
+            {this.state.end ?
+              <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                  <div class="toast-header">
+                    <strong class="mr-auto">FIN</strong>
+                    <small>unos minutos atras</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="toast-body">
+                      El juego a terminado y el ganador es: {this.state.game.score[0] > this.state.game.score[1]? 'Negras' : 'Blancas'}
+                  </div>
+                </div>
+              </div>
+              : null
+            }
+          </div>
         </div> 
         <br></br>
           <div className="alert alert-info col-md-6 offset-md-3 bg-light text-dark" role="alert">
