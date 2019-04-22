@@ -5,14 +5,14 @@ const isAuth = require('../controllers/auth');
 
 const router = express.Router();
 
-router.post('/newgame', othelloController.postGame);
+router.post('/newgame', isAuth, othelloController.postGame);
 
-router.get('/games', othelloController.getGames);
+router.get('/games', isAuth, othelloController.getGames);
 
-router.get('/game/:othelloId', othelloController.getGame);
+router.get('/game/:othelloId', isAuth, othelloController.getGame);
 
-router.put('/game/:othelloId', othelloController.updateGame);
+router.put('/game/:othelloId', isAuth, othelloController.updateGame);
 
-router.put('/gamePlay/:othelloId', othelloController.playGame);
+router.put('/gamePlay/:othelloId', isAuth, othelloController.playGame);
 
 module.exports = router;

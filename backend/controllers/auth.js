@@ -12,7 +12,7 @@ module.exports = (req, res, next) =>{
 
     if(!idToken){
         const error = new Error('Sin autenticacion.');
-        error .statusCode = 401;
+        error.statusCode = 401;
         throw error;
     }
     

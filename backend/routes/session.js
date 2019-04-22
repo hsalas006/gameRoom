@@ -5,16 +5,16 @@ const isAuth = require('../controllers/auth');
 
 const router = express.Router();
 
-router.post('/newsession', sessionController.postSession);
+router.post('/newsession', isAuth, sessionController.postSession);
 
-router.get('/sessions', sessionController.getSessions);
+router.get('/sessions', isAuth, sessionController.getSessions);
 
-router.get('/:idsession', sessionController.getSession);
+router.get('/:idsession', isAuth, sessionController.getSession);
 
-router.put('/newgameInsession/:sessionId', sessionController.addGame);
+router.put('/newgameInsession/:sessionId', isAuth, sessionController.addGame);
 
-router.put('/:sessionId', sessionController.updateSession);
+router.put('/:sessionId', isAuth, sessionController.updateSession);
 
-router.put('/addPlayer/:sessionId', sessionController.addPlayer);
+router.put('/addPlayer/:sessionId', isAuth, sessionController.addPlayer);
 
 module.exports = router;

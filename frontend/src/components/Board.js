@@ -108,7 +108,8 @@ export default class Board extends React.Component{
             this.drawBoard();
             if((this.state.turn===2)&(this.state.auto===true)) this.handleClick(0,0);
           }
-          if(data.end.check){
+          console.log('fin del juego: ', data.end)
+          if((data.end)&(!this.state.end)){
             this.setState({end:true})
           }
         })
@@ -164,27 +165,16 @@ export default class Board extends React.Component{
     return (
       
       <div>
+        <div>{this.state.end ?
+            <div class="alert alert-danger" role="alert">
+              EL juego a terminado - ganador : {this.state.game.score[1]>this.state.game.score[0]? 'Negras' : 'Blancas'}
+            </div>
+            : null
+          }
+          </div>
         <div className="gridGame">
           {this.drawBoard()}
-          <div>
-            {this.state.end ?
-              <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
-                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                  <div class="toast-header">
-                    <strong class="mr-auto">FIN</strong>
-                    <small>unos minutos atras</small>
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="toast-body">
-                      El juego a terminado y el ganador es: {this.state.game.score[0] > this.state.game.score[1]? 'Negras' : 'Blancas'}
-                  </div>
-                </div>
-              </div>
-              : null
-            }
-          </div>
+          
         </div> 
         <br></br>
           <div className="alert alert-info col-md-6 offset-md-3 bg-light text-dark" role="alert">
@@ -199,7 +189,7 @@ export default class Board extends React.Component{
             </div>
             
             <hr></hr>
-            <h6 className="alert-heading text-center">Negras: {this.state.game.score[0]}  /  Blancas: {this.state.game.score[1]}</h6>
+            <h6 className="alert-heading text-center">Negras: {this.state.game.score[1]}  /  Blancas: {this.state.game.score[0]}</h6>
             
           </div>
           <div className="input-group mb-3">

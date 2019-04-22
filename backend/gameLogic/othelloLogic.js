@@ -138,7 +138,7 @@ exports.score = (matrix, size) =>{
 };
 
 exports.winner =(player, matrix, size)=>{
-    let move=false;
+    let move=true;
     let contr;
 
     if(player===1) {contr=2;}
@@ -147,11 +147,15 @@ exports.winner =(player, matrix, size)=>{
     for (row = 0; row < size; row++) {
         for (col = 0; col < size; col++) {
             if (matrix[row][col] == 0) {
-                return move = validMove(matrix, row, col, player, contr, size - 1);
+                move = validMove(matrix, row, col, player, contr, size - 1);
+                console.log('ganador: ', move )
             } 
+            if (move == true) {
+                return false;
+            }
       }
     } 
-
+    console.log('ganador: ', move )
     return move;  
 };
 
