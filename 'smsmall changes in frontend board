@@ -1,0 +1,65 @@
+[33mcommit eb3881c0f50a4a0bc21e7170540c4d2e1e4e4e0d[m[33m ([m[1;36mHEAD -> [m[1;32moptimization[m[33m, [m[1;31morigin/optimization[m[33m)[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Sun Apr 21 18:30:49 2019 -0600
+
+    restructuring all the proyect
+
+[33mcommit 6cd15b3bc3a4ab14cc3f9ef08a64067a7f546dd2[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Mon Apr 15 09:58:54 2019 -0600
+
+    small changes in frontend board
+
+[33mcommit 998cf9d95b26d4702975e53efe7e6f6bb8e5c979[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Sun Apr 14 21:03:06 2019 -0600
+
+    othello: end of the game
+
+[33mcommit 4e4e72ce1f6296f114d2cdeaf808967b48442cba[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Sun Apr 14 15:47:59 2019 -0600
+
+    othello logic: automatic play player vs pc
+
+[33mcommit f379b8d630f359bf966b30d39f6381e050f8da1a[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Sat Apr 13 15:47:14 2019 -0600
+
+    fixing othello logic
+
+[33mcommit b480defc6fed0fbd309a83a14a710bc348ef3f2c[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Sat Apr 13 10:26:28 2019 -0600
+
+    new component: newGame, create a game player vs pc
+
+[33mcommit 1bb35e641c8caf2b49565e656d529a13e9719aa2[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Fri Apr 12 23:21:40 2019 -0600
+
+    board: game score
+
+[33mcommit d6cc01499e3794ffba24a13c7b268014ca928b21[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Fri Apr 12 19:39:50 2019 -0600
+
+    board: showing the player turn
+
+[33mcommit fbc3b1857a3a4ffb60ec94ac83c4b4e1c8a9b07f[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Fri Apr 12 17:37:50 2019 -0600
+
+    fixing othello logic
+
+[33mcommit a13bf23385ea2b7f1fa1c3b1bf954c72c3edfc3b[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Fri Apr 12 16:18:07 2019 -0600
+
+    gameplay: show the move in differents screems
+
+[33mcommit 0a991cbfa5b5ff73bbf51fd5715067535edb57d7[m
+Author: hsalas006 <hsalas006@github.com>
+Date:   Fri Apr 12 15:26:00 2019 -0600
+
+    sessions and load a current game
