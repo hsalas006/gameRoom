@@ -25,7 +25,7 @@ export default class Menu extends Component{
                 <Button variant="outline-info" size="lg" block as={Link} to="/sessions">
                     Sesion Existente
                 </Button>
-                <Button variant="outline-success" size="lg" block as={Link} to="/board">
+                <Button variant="outline-success" size="lg" block as={Link} to="/newgame">
                     Jugador vs PC
                 </Button>
                 <Button variant="outline-warning" size="lg" block as={Link} to="/">

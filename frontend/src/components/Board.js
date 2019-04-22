@@ -108,7 +108,7 @@ export default class Board extends React.Component{
             this.drawBoard();
             if((this.state.turn===2)&(this.state.auto===true)) this.handleClick(0,0);
           }
-          if(data.end.check){
+          else if(data.end.check){
             this.setState({end:true})
           }
         })
