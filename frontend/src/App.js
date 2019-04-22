@@ -1,98 +1,37 @@
-import React, { Component, Fragment } from 'react';
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import React, { Component } from 'react';
+//import { Link, Route, Switch } from 'react-router-dom';
 
-import Header from './components/Header';
-import LoginPage from './pages/Login';
-import MainPage from './pages/Main';
+import Header from './Header';
 
-
-class App extends Comment {
-
-  state = {
-    isAuth: false,
-    token: null,
-    userId: null
-  }
-
-  componentDidMout(){
-    const token = localStorage.getItem('idToken');
-    if(!token){
-      return;
-    }
-
-    const userId = localStorage.getItem('userId');
-    this.setState({ isAuth: true, token: token, userId: userId});
-  }
-
-  logoutHandler = () => {
-    this.setState({ isAuth: false, token: null, userId: null});
-    localStorage.removeItem('idToken');
-    localStorage.removeItem('userId');
-  }
-
-  loginHandler = (data) => {
- 
-    if(data.login){
-      const token = localStorage.getItem('idToken');
-      const userId = localStorage.getItem('userId');
-      this.setState({
-        token: token,
-        userId: userId,
-        isAuth: true
-      })  
-    }else {
-      localStorage.removeItem('idToken');
-      localStorage.removeItem('userId');
-      this.setState({
-        token: null,
-        userId: null,
-        isAuth: false
-      }) 
-    }
-  }
-
-  render(){
-    let routes = (
-      <Switch>
-        <Route
-          path="/"
-          exact
-          render={props => (
-            <LoginPage
-              {...props}
-              onLogin={this.loginHandler}
-            />
-          )}
-        />
-        <Redirect to="/" />
-      </Switch>
-    );
-    if (this.state.isAuth) {
-      routes = (
-        <Switch>
-          <Route
-            path="/home"
-            exact
-            render={props => (
-              <MainPage userId={this.state.userId} token={this.state.token} />
-            )}
-          />
-          <Redirect to="/home" />
-        </Switch>
-      );
-    }
-    return (
-    
-        <div>
-          <Header />          
-          <div className="container">
-            {routes}
-          </div>
-        </div>
-     
-    );
-  }
+export default (props) => {
   
-}
+  return (
+    <div>
+      <Header />
+      
+      <div className="container">
 
-export default withRouter(App);
+      
+        { props.children }
+      </div>
+    </div>
+  );
+};
+/*
+export default class App extends Component {
+  render() {
+    return (
+      <div>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/secret">Secret</Link></li>
+        </ul>
+        <Header />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/secret" component={} />
+        </Switch>
+      </div>
+    );
+  }
+}*/

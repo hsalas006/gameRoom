@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 import firebase from "firebase"
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import Menu from '../components/Menu';
+import Menu from './Menu';
+
+import auth from '../authHelper';
 
 firebase.initializeApp({
     apiKey: "AIzaSyA0kHfgbRI6PcZgkiCU-HC1fbHrqPfguec",
@@ -11,7 +13,7 @@ firebase.initializeApp({
 
 firebase.auth().useDeviceLanguage();
 
-export default class Login extends Component {
+export default class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -83,9 +85,11 @@ export default class Login extends Component {
     return (
 
       <div className="App">
-        {this.state.idToken ? 
-          this.props.onLogin({login:true})
-          : (
+        {this.state.idToken ? (
+            <span>
+              <Menu userId={this.state.userId} idToken={this.state.idToken} name={this.state.name}></Menu>
+            </span>
+          ) : (
             <div className="jumbotron">
             <h1 className="display-5 text-center">Proyecto #1 - Diseño de Software</h1>
             <p className="lead text-center">Plataforma de juegos de mesa que permite tener sesiones de juego de forma remota</p>
