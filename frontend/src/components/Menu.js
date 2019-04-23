@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Link} from "react-router-dom";
 import NewSession from './NewSession';
 import Sessions from './Sessions';
 import NewGame from './NewGame';
+import SignIn from '../pages/Login';
 
 
 export default class Menu extends Component{
@@ -21,9 +22,11 @@ export default class Menu extends Component{
         return(
             <Fragment>
             <BrowserRouter>
-                <Route path = "/newsession" component = {NewSession} />
-                <Route path = "/sessions" component = {Sessions} />
-                <Route path = "/newGame" component = {NewGame} />
+                <Route exact path="/SignIn" component={SignIn} />
+                <Route exact path="/Menu" component={Menu} />
+                <Route exact path="/Newsession" component={NewSession} />
+                <Route exact path="/Sessions" component={Sessions} />
+                <Route exact path="/NewGame" component={NewGame} />
             </BrowserRouter>
             <div className="jumbotron">
                 <h1 className="display-5 text-center">Menu</h1>
