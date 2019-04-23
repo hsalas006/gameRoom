@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 
 import firebase from "firebase"
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import Menu from './Menu';
-
-import auth from '../authHelper';
 
 firebase.initializeApp({
     apiKey: "AIzaSyA0kHfgbRI6PcZgkiCU-HC1fbHrqPfguec",
@@ -24,6 +21,12 @@ export default class SignIn extends Component {
     };
     this.setUser = this.setUser.bind(this);
   }
+  
+  _isMounted = false;
+
+  componentWillUnmount(){
+    this._isMounted = false;
+  }
 
   setUser(user) {
     this.setState({ user })
@@ -38,7 +41,7 @@ export default class SignIn extends Component {
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
     ],
     callbacks: {
-        signInSuccessWithAuthResult: () => false
+        signInSuccessWithAuthResult: () => false,
     }
   }
 
@@ -48,26 +51,29 @@ export default class SignIn extends Component {
         console.log('error no hay usuario registrado');
         return
       }
-      user.getIdToken().then(token =>{
+      if(this._isMounted){
+        user.getIdToken().then(token =>{
           
-        this.setState({
-          idToken: token.toString(),
-          userId: user.uid,
-          email: user.email,
-          name: user.displayName
+          this.setState({
+            idToken: token.toString(),
+            userId: user.uid,
+            email: user.email,
+            name: user.displayName
+          });
+          localStorage.setItem('idToken', JSON.stringify(token.toString()));
+          localStorage.setItem('userId', JSON.stringify(user.uid));
+  
+        })
+          .catch(err=>{
+          console.log(err);
         });
-        localStorage.setItem('idToken', JSON.stringify(token.toString()));
-        localStorage.setItem('userId', JSON.stringify(user.uid));
-
-      })
-        .catch(err=>{
-        console.log(err);
-      }); 
+      }
+       
     });
   }
 
-  componentDidMount = () => {
-    
+  componentDidMount(){
+    this._isMounted = true;
     firebase.auth().signOut().then(()=>{
       console.log('>>> SingOut');
       this.state = { 
@@ -86,9 +92,7 @@ export default class SignIn extends Component {
 
       <div className="App">
         {this.state.idToken ? (
-            <span>
-              <Menu userId={this.state.userId} idToken={this.state.idToken} name={this.state.name}></Menu>
-            </span>
+            this.props.onLogin()
           ) : (
             <div className="jumbotron">
             <h1 className="display-5 text-center">Proyecto #1 - Diseño de Software</h1>

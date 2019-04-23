@@ -1,7 +1,11 @@
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Button from 'react-bootstrap/Button';
-import {Link} from "react-router-dom";
+import { BrowserRouter, Route, Link} from "react-router-dom";
+
+import NewSession from './NewSession';
+import Sessions from './Sessions';
+import NewGame from './NewGame';
 
 
 export default class Menu extends Component{
@@ -15,17 +19,21 @@ export default class Menu extends Component{
     }
     render(){
         return(
-        <div className="jumbotron">
+            <Fragment>
+            <BrowserRouter>
+                <Route path = "/newsession" component = {NewSession} />
+                <Route path = "/sessions" component = {Sessions} />
+                <Route path = "/newGame" component = {NewGame} />
+            </BrowserRouter>
+            <div className="jumbotron">
                 <h1 className="display-5 text-center">Menu</h1>
-             
-                    <Button variant="outline-primary" size="lg" block as={Link} to="/newsession">
-                        Nueva Sesion 
-                    </Button>
-              
+                <Button variant="outline-primary" size="lg" block as={Link} to="/newsession">
+                    Nueva Sesion 
+                </Button>   
                 <Button variant="outline-info" size="lg" block as={Link} to="/sessions">
                     Sesion Existente
                 </Button>
-                <Button variant="outline-success" size="lg" block as={Link} to="/board">
+                <Button variant="outline-success" size="lg" block as={Link} to="/newGame">
                     Jugador vs PC
                 </Button>
                 <Button variant="outline-warning" size="lg" block as={Link} to="/">
@@ -34,9 +42,8 @@ export default class Menu extends Component{
                 <div className="alert alert-primary display-5 text-center">
                     Seleccione la opción que mas desee
                 </div>
-            </div>
-            
-            
+            </div> 
+            </Fragment>   
         );
     }
 };
