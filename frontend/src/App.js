@@ -4,6 +4,10 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import Header from './components/Header';
 import Menu from './components/Menu';
 
+import NewSession from './components/NewSession';
+import Sessions from './components/Sessions';
+import NewGame from './components/NewGame';
+
 import LoginPage from './pages/Login';
 
 
@@ -51,12 +55,7 @@ class App extends Component {
         <Route
           path="/"
           exact
-          render={props => (
-            <LoginPage
-              {...props}
-              onLogin={this.loginHandler}
-            />
-          )}
+          render={props => (<LoginPage {...props} onLogin={this.loginHandler}/>)}
         />
         <Redirect to="/" />
       </Switch>
@@ -64,13 +63,11 @@ class App extends Component {
     if (this.state.isAuth) {
       routes = (
         <Switch>
-          <Route
-            path="/Menu"
-            exact
-            render={props => (
-              <Menu />
-            )}
-          />
+          <Route path="/Menu" exact render={props => (<Menu />)}/>
+          <Route exact path="/NewSession" component={NewSession} />
+          <Route path="/Sessions" component={Sessions} />
+          <Route path="/NewGame" component={NewGame} />
+          <Route path="/login" component={LoginPage} />
           <Redirect to="/Menu" />
         </Switch>
       );

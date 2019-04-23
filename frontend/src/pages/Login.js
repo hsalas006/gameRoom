@@ -83,6 +83,8 @@ export default class SignIn extends Component {
         name: null
       };
     });
+    localStorage.removeItem('idToken');
+    localStorage.removeItem('userId');
     this.loadlogin();
   }
 
