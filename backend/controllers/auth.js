@@ -8,22 +8,23 @@ admin.initializeApp({
 });
 
 module.exports = (req, res, next) =>{
-    const idToken = req.get('Authorization');
-
-    if(!idToken){
+    const token = req.get('Authorization');
+    console.log(serviceAccount, 'serviceAccount>>>>>>>>>>>>');
+    if(!token){
         const error = new Error('Sin autenticacion.');
         error.statusCode = 401;
         throw error;
     }
-    
-    admin.auth().verifyIdToken(idToken)
-        .then(decodedToken => {
+    console.log(token, 'token>>>>>>>>>>>>');
+    admin.auth().verifyIdToken(token)
+        .then(function(decodedToken) {
+            console.log(decodedToken, '---------------')
             if (!decodedToken){
                 const error = new Error('Usuario no autenticado.');
                 error.statusCode = 401;
                 throw error;
             }
-            //var uid = decodedToken.uid;
+            var uid = decodedToken.uid;
             console.log(uid);
             req.userId = decodedToken.uid
             next();

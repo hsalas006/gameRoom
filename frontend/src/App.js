@@ -7,6 +7,7 @@ import Menu from './components/Menu';
 import NewSession from './components/NewSession';
 import Sessions from './components/Sessions';
 import NewGame from './components/NewGame';
+import Board from './components/Board';
 
 import LoginPage from './pages/Login';
 
@@ -68,6 +69,7 @@ class App extends Component {
           <Route path="/Sessions" component={Sessions} />
           <Route path="/NewGame" component={NewGame} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/Board" component={Board} />
           <Redirect to="/Menu" />
         </Switch>
       );

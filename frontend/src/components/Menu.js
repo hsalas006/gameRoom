@@ -7,6 +7,7 @@ import NewSession from './NewSession';
 import Sessions from './Sessions';
 import NewGame from './NewGame';
 import SignIn from '../pages/Login';
+import Board from '../components/Board';
 
 
 export default class Menu extends Component{

@@ -39,7 +39,11 @@ export default class Sessions extends Component{
 
     async loadSession(){
 
-        await fetch('http://localhost:8000/session/'+ this.props.location.state.idSession)
+        await fetch('http://localhost:8000/session/'+ this.props.location.state.idSession, {
+            headers: {
+              Authorization: localStorage.getItem('idToken')
+            }
+          })
         .then(res => {
             if (res.status !== 200) {
                 console.log('Error al cargar la sesion.');
@@ -79,7 +83,11 @@ export default class Sessions extends Component{
         else if (this.state.currentGame-1 <= this.state.othello+this.state.memory){
             url= 'http://localhost:8000/memory/game/';
         }
-        await fetch(url + idGame)
+        await fetch(url + idGame, {
+            headers: {
+              Authorization: localStorage.getItem('idToken')
+            }
+          })
         .then(res => {
             if (res.status !== 200) {
                 console.log('Error al cargar la sesion.');
@@ -117,6 +125,7 @@ export default class Sessions extends Component{
         fetch('http://localhost:8000/session/newgameInsession/' + this.state.idSession,{
             method: 'PUT',
             headers: {
+                Authorization: localStorage.getItem('idToken'),
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
@@ -138,7 +147,8 @@ export default class Sessions extends Component{
         await fetch(url, {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json'
+                Authorization: localStorage.getItem('idToken'),
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 type: type,

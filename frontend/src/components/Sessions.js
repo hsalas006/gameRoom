@@ -32,7 +32,11 @@ export default class Sessions extends Component{
     
   loadSessions(){
       
-    fetch('http://localhost:8000/session/sessions')
+    fetch('http://localhost:8000/session/sessions', {
+      headers: {
+        Authorization: localStorage.getItem('idToken')
+      }
+    })
       .then(res => {
         if (res.status !== 200) {
           console.log('Error al cargar las sesiones.');
@@ -58,11 +62,13 @@ export default class Sessions extends Component{
 
   displaySession(){
     let path = `/session`;
-    console.log(this.state.selectedSess.IDplayer1 !== localStorage.getItem('userId'))
+    console.log('>>>> ', localStorage.getItem('idToken'))
     if(this.state.selectedSess.IDplayer1 !== localStorage.getItem('userId')){
       fetch('http://localhost:8000/session/addPlayer/'+this.state.selectedSess._id,{
         method: 'PUT',
             headers: {
+              
+                Authorization: localStorage.getItem('idToken'),
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({

@@ -18,7 +18,7 @@ export default class Header extends Component {
   }
 
   componentDidUpdate(){
-    if(localStorage.getItem('idToken')==='null'){
+    if(localStorage.getItem('idToken')===null){
       console.log('---->>>>', localStorage.getItem('idToken'));
       this.props.history.push({pathname: '/signin'});
     }
@@ -51,10 +51,10 @@ export default class Header extends Component {
   signOut(){
     firebase.auth().signOut().then(() => {
       this.setState({
-        idToken: '',
-        userId: '',
-        email: '',
-        name: ''
+        idToken: null,
+        userId: null,
+        email: null,
+        name: null
       });
     })
     localStorage.removeItem('idToken');
@@ -68,8 +68,11 @@ export default class Header extends Component {
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <a className="navbar-brand" href="/menu">GameRoom - v.1.1</a>
-
+        {this.state.idToken ? 
+          <Link className="navbar-brand" to="/menu" >GameRoom - v.1.1</Link>
+          : null
+        }
+        
         <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
         {this.state.idToken ? 
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0">

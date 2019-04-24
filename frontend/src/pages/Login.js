@@ -60,7 +60,7 @@ export default class SignIn extends Component {
             email: user.email,
             name: user.displayName
           });
-          localStorage.setItem('idToken', JSON.stringify(token.toString()));
+          localStorage.setItem('idToken', token.toString());
           localStorage.setItem('userId', JSON.stringify(user.uid));
   
         })

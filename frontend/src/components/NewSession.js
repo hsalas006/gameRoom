@@ -37,6 +37,7 @@ export default class NewSession extends Component{
         fetch('http://localhost:8000/session/newsession', {
             method: 'POST',
             headers: {
+              Authorization: localStorage.getItem('idToken'),
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({

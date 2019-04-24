@@ -83,6 +83,7 @@ export default class Board extends React.Component{
     fetch(url + id, {
             method: 'PUT',
             headers: {
+              Authorization: localStorage.getItem('idToken'),
               'content-type': 'application/json',
               'Accept': 'application/json',
             },
