@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const compression = require('compression');
 
 const memoryRoutes = require('./routes/Memory');
 const othelloRoutes = require('./routes/Othello');
@@ -15,6 +16,7 @@ app.set('port', process.env.PORT || 8000)
 // Middlewares
 app.use(bodyParser.json());
 app.use(cors());
+app.use(compression());
 //app.use(authVerification.isAuthorized);
 
 // Routes
@@ -36,17 +38,17 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     console.log(err);
 });
-
+const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@tec-2019-yxsfo.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true`
 // Database initialization, Server listener and socket init
 mongoose
     .connect(
-        'mongodb+srv://hsalas:gameroom@tec-2019-yxsfo.mongodb.net/gameRoom?retryWrites=true', { useNewUrlParser: true }
+        MONGODB_URI, { useNewUrlParser: true }
     )
     .then(result =>{
         console.log('Conexion exitosa a la base de datos...');
 
         // Start the server
-        const server = app.listen(app.get('port'), () => {
+        const server = app.listen(process.env.PORT || app.get('port'), () => {
             console.log(`Servidor en el puerto ${app.get('port')}...`);
         });
         

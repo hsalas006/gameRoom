@@ -1,0 +1,7 @@
+{
+    "env":{
+        "MONGO_USER": "hsalas",
+        "MONGO_PASSWORD": "gameroom",
+        "MONGO_DEFAULT_DATABASE": "gameRoom"
+    }
+}
