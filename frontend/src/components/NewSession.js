@@ -10,7 +10,6 @@ export default class NewSession extends Component{
           validated: false,
           name: '',
           IdPlayer1: '',
-          memory: 0,
           othello: 0,
           boardSize: 0, 
           score: {player1: 0, player: 0}
@@ -29,11 +28,9 @@ export default class NewSession extends Component{
         this.setState({ 
           name: event.target.elements.name.value,
           IdPlayer1: localStorage.getItem('userId'),
-          memory: event.target.elements.memory.value,
           othello: event.target.elements.othello.value,
           boardSize: event.target.elements.size.value
         });
-        console.log(event.target.elements.name.value, '<<<<<<<<<<<<<<<<<');
         fetch('http://localhost:8000/session/newsession', {
             method: 'POST',
             headers: {
@@ -44,7 +41,7 @@ export default class NewSession extends Component{
                 name: event.target.elements.name.value,
                 IdPlayer1: localStorage.getItem('userId'),
                 IdPlayer2: null,
-                games: [event.target.elements.memory.value, event.target.elements.othello.value],
+                games: [event.target.elements.othello.value],
                 boardSize: event.target.elements.size.value,
                 score: 0
             })
@@ -90,13 +87,6 @@ export default class NewSession extends Component{
             </Form.Group>
           </Form.Row>
           <Form.Row className='justify-content-md-center'>
-            <Form.Group md="6" controlId="validationMemory">
-              <Form.Label>Juegos de Memoria</Form.Label>
-              <Form.Control type="number" placeholder="Memory" name="memory" required />
-              <Form.Control.Feedback type="invalid">
-                determine la cantidad de juegos de memoria.
-              </Form.Control.Feedback>
-            </Form.Group>
             <Form.Group md="6" controlId="validationOthello">
               <Form.Label>Juegos de Othelo</Form.Label>
               <Form.Control type="number" placeholder="Othello" name="othello" required />
@@ -125,15 +115,8 @@ export default class NewSession extends Component{
               </InputGroup>
             </Form.Group>
           </Form.Row>
-          <Form.Group className='justify-content-md-center'>
-            <Form.Check
-              required
-              label="Esta deacuerdo con las condiciones"
-              feedback="Debe acceder a las condiciones"
-            />
-          </Form.Group>
-          <Button variant="primary" size="lg" type="submit">Crear Sesion</Button>
-          <a href="/Menu" className="btn btn-secondary btn-lg">Volver</a>
+          
+          <Button className="justify-content-md-center" variant="primary" size="lg" type="submit">Crear Sesion</Button>
           </Col>
           </div>
         </Form>

@@ -6,6 +6,7 @@ import Menu from './components/Menu';
 
 import NewSession from './components/NewSession';
 import Sessions from './components/Sessions';
+import Session from './components/Session';
 import NewGame from './components/NewGame';
 import Board from './components/Board';
 
@@ -67,6 +68,7 @@ class App extends Component {
           <Route path="/Menu" exact render={props => (<Menu />)}/>
           <Route exact path="/NewSession" component={NewSession} />
           <Route path="/Sessions" component={Sessions} />
+          <Route path="/Session" component={Session} />
           <Route path="/NewGame" component={NewGame} />
           <Route path="/login" component={LoginPage} />
           <Route path="/Board" component={Board} />
@@ -85,42 +87,3 @@ class App extends Component {
 }
 
 export default withRouter(App);
-
-
-/*import React, { Component } from 'react';
-//import { Link, Route, Switch } from 'react-router-dom';
-
-import Header from './Header';
-
-export default (props) => {
-  
-  return (
-    <div>
-      <Header />
-      
-      <div className="container">
-
-      
-        { props.children }
-      </div>
-    </div>
-  );
-};
-
-export default class App extends Component {
-  render() {
-    return (
-      <div>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/secret">Secret</Link></li>
-        </ul>
-        <Header />
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/secret" component={} />
-        </Switch>
-      </div>
-    );
-  }
-}*/

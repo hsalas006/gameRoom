@@ -54,14 +54,13 @@ export default class Sessions extends Component{
   };
 
   handleClick(e) {
-      console.log('---->>>',e);
       let sess = this.state.sessions[e];
-      console.log(sess);
+
       this.setState({selectedSess: sess, selected: true});
   } 
 
   displaySession(){
-    let path = `/session`;
+    
     console.log('>>>> ', localStorage.getItem('idToken'))
     if(this.state.selectedSess.IDplayer1 !== localStorage.getItem('userId')){
       fetch('http://localhost:8000/session/addPlayer/'+this.state.selectedSess._id,{
@@ -84,13 +83,13 @@ export default class Sessions extends Component{
         return res.json();
       })
       .then(resData => {
-        this.props.history.push({pathname: path, state: {idSession: this.state.selectedSess._id}});  
+        this.props.history.push({pathname: '/board', state: {idSession: this.state.selectedSess._id}});  
       })
       .catch(err=>{console.log(err)});
     }
     else if(this.state.selectedSess.IDplayer1 === localStorage.getItem('userId')){
-      this.props.history.push({pathname: path, state: {idSession: this.state.selectedSess._id}});  
-      console.log('-**--**- ', this.state.selectedSess._id);
+      this.props.history.push({pathname: '/session', state: {idSession: this.state.selectedSess._id}});  
+      
     }
     
   }
@@ -106,7 +105,6 @@ export default class Sessions extends Component{
             <th>Nivel</th>
             <th>Creator</th>
             <th>Othello</th>
-            <th>Memoria</th>
             </tr>
           </thead>
           <tbody>{this.state.sessions.map((item, key) => {
@@ -116,7 +114,6 @@ export default class Sessions extends Component{
                   <td>{item.boardSize}</td>
                   <td>{item.IDplayer1}</td>
                   <td>{item.games[0]}</td>
-                  <td>{item.games[1]}</td>
                 </tr>
               )
             })}</tbody>

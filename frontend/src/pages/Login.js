@@ -60,6 +60,8 @@ export default class SignIn extends Component {
             email: user.email,
             name: user.displayName
           });
+          localStorage.setItem('photo', user.photoURL.toString());
+          localStorage.setItem('name', user.displayName.toString());
           localStorage.setItem('idToken', token.toString());
           localStorage.setItem('userId', JSON.stringify(user.uid));
   

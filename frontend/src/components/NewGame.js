@@ -32,8 +32,7 @@ export default class NewGame extends Component{
             url = 'http://localhost:8000/memory/newgame';
             type = 'memory';
         }
-        console.log('url: ', url)
-        console.log(event.target.elements.level.value, '<<<<<<<<<<<<<<<<<');
+
         fetch(url, {
             method: 'POST',
             headers: {
@@ -88,7 +87,6 @@ export default class NewGame extends Component{
                 <select className="custom-select" id="type">
                     <option defaultValue>Seleccionar...</option>
                     <option value="1">Othello</option>
-                    <option value="2">Memoria</option>
                 </select>
                 
                 <Form.Control.Feedback type="invalid">
@@ -135,7 +133,6 @@ export default class NewGame extends Component{
             />
           </Form.Group>
           <Button variant="primary" size="lg" type="submit">Jugar</Button>
-          <a href="/Menu" className="btn btn-secondary btn-lg">Volver</a>
           </Col>
           </div>
         </Form>

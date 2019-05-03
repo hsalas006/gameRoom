@@ -1,0 +1,43 @@
+[debug] [2019-05-03T15:32:02.212Z] ----------------------------------------------------------------------
+[debug] [2019-05-03T15:32:02.214Z] Command:       /home/hass-usr/.nvm/versions/node/v8.16.0/bin/node /home/hass-usr/.nvm/versions/node/v8.16.0/bin/firebase init
+[debug] [2019-05-03T15:32:02.214Z] CLI Version:   6.8.0
+[debug] [2019-05-03T15:32:02.214Z] Platform:      linux
+[debug] [2019-05-03T15:32:02.214Z] Node Version:  v8.16.0
+[debug] [2019-05-03T15:32:02.214Z] Time:          Fri May 03 2019 09:32:02 GMT-0600 (CST)
+[debug] [2019-05-03T15:32:02.214Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-05-03T15:32:02.218Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-05-03T15:32:02.218Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /home/hass-usr/TEC - 2019/Semestre - I/Diseño/proyectos/gameRoomv0.1
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2019-05-03T15:32:07.404Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-05-03T15:32:07.404Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-05-03T15:32:08.246Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-03T15:32:08.345Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects?page_size=100  
+ 
+[debug] [2019-05-03T15:32:09.891Z] <<< HTTP RESPONSE 200
+[info] i  Using project gameroom-3127e (gameRoom)
+[info] 
+=== Hosting Setup
+[info] 
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 

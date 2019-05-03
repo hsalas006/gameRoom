@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase';
 import openSocket from 'socket.io-client';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+
 
 var socket;
 export default class Header extends Component {
@@ -20,10 +22,12 @@ export default class Header extends Component {
   componentDidUpdate(){
     if(localStorage.getItem('idToken')===null){
       console.log('---->>>>', localStorage.getItem('idToken'));
-      this.props.history.push({pathname: '/signin'});
+      return <Redirect to="/signin" />
+      //this.props.history.push({pathname: '/signin'});
     }
     
     console.log('idToken: ', localStorage.getItem('idToken'))
+    console.log('name: ', localStorage.getItem('name'))
   }
 
   componentDidMount = () => {
@@ -57,6 +61,8 @@ export default class Header extends Component {
         name: null
       });
     })
+    localStorage.removeItem('photo');
+    localStorage.removeItem('name');
     localStorage.removeItem('idToken');
     localStorage.removeItem('userId');
     console.log(this.state.name)
@@ -77,17 +83,18 @@ export default class Header extends Component {
         {this.state.idToken ? 
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
             <li className="nav-item active">
-              <Link className="nav-link" to="/NewSession">Crear Session<span class="sr-only">(current)</span></Link>
-              <Link className="nav-link" to="/Sessions">Sesiones<span class="sr-only">(current)</span></Link>
-              <Link className="nav-link" to="/NewGame">vs PC<span class="sr-only">(current)</span></Link>
+              <Link className="nav-link" to="/NewSession">Crear Session<span className="sr-only">(current)</span></Link>
+              <Link className="nav-link" to="/Sessions">Sesiones<span className="sr-only">(current)</span></Link>
+              <Link className="nav-link" to="/NewGame">vs PC<span className="sr-only">(current)</span></Link>
             </li>
           </ul>  : null }
           
         </div>
         <ul className="nav navbar-nav">
             {this.state.idToken ? 
-              <li className="nav-item">
-                <Link className="nav-link" to="/signin" onClick={this.signOut} >Salir</Link>
+            
+              <li className="nav-item"> 
+                <Link className="nav-link" to="/signin" onClick={this.signOut} ><img style={{width: '45px', height: '45px', borderRadius: 400/ 2}} src={localStorage.getItem('photo')} /> {localStorage.getItem('name')} - Salir</Link>
               </li>
             :
               <li className="nav-item">
@@ -102,32 +109,3 @@ export default class Header extends Component {
   }
 }
 export { Header, socket };
-
-
-/*<nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{ marginBottom: '30px' }}>
-        <Link className="navbar-brand" to="/Menu">GameRoom - v.1.1</Link>
-
-        <div className="collapse navbar-collapse">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/NewSession">Crear Session</Link>
-              <Link className="nav-link" to="/Sessions">Sessiones</Link>
-              <Link className="nav-link" to="/NewGame">Player vs PC</Link>
-            </li>
-          </ul>
-
-          <ul className="nav navbar-nav">
-            {this.state.idToken ? 
-              <li className="nav-item">
-                <Link className="nav-link" to="/signin" onClick={this.signOut} >Salir</Link>
-              </li>
-            :
-              <li className="nav-item">
-                <Link className="nav-link" to="/signin">Acceder</Link>
-              </li>
-            }
-            
-            
-          </ul>
-        </div>
-      </nav> */

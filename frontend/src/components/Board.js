@@ -14,7 +14,8 @@ export default class Board extends React.Component{
       player2: '',
       level:this.props.location.state.game.level, 
       auto:this.props.location.state.game.auto,
-      end: false
+      end: false,
+      msn: ''
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -23,9 +24,8 @@ export default class Board extends React.Component{
   }
 
   componentDidMount(){
-    console.log('prueba1- ', this.props.location.state.game)
     let idSocket = this.state.game._id;
-    //this.checkMove();
+    
     if(this.state.turn===1){
       this.setState({player1:'light', player2: 'success'})
     }
@@ -56,15 +56,11 @@ export default class Board extends React.Component{
 
   handleClick(x,y){
     let url = '';
-    console.log('x--> ',x,'y--> ',y);
 
     if(this.state.game.type === 'othello'){
       url = 'http://localhost:8000/othello/gamePlay/';
       this.checkMove(url, x, y);
 
-    }else if (this.state.game.type === 'memory'){
-      url = 'http://localhost:8000/memory/gamePlay/'; 
-      this.checkMove(url, x, y);
     }
     else{
       alert('Error de reconocimiento');
@@ -78,7 +74,6 @@ export default class Board extends React.Component{
     let id = this.state.game._id;
     let level= this.state.game.level;
     let auto= this.state.game.auto;
-    console.log('>>>>>> ', this.state.game)
 
     fetch(url + id, {
             method: 'PUT',
@@ -102,7 +97,6 @@ export default class Board extends React.Component{
           return res.json();
         })
         .then(data =>{
-          console.log('turn: <<<<<<< ', data)
           if(data.game){
 
             this.setState({game: data.game, turn: data.game.turn, grid: data.game.matrix});

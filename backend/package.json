@@ -3,7 +3,9 @@
   "version": "1.0.1",
   "description": "Game Room project of Design Course first semester 2019 ",
   "main": "app.js",
-  "engines": "8.15.0",
+  "engines": {
+    "npm": "6.x"
+  },
   "scripts": {
     "start": "nodemon app.js"
   },

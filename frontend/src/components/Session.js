@@ -77,13 +77,8 @@ export default class Sessions extends Component{
     async loadGame(){
         let url;
         let idGame= this.state.idGames[this.state.currentGame];;
-        if (this.state.currentGame-1 <= this.state.othello){
-            url= 'http://localhost:8000/othello/game/';
-        }
-        else if (this.state.currentGame-1 <= this.state.othello+this.state.memory){
-            url= 'http://localhost:8000/memory/game/';
-        }
-        await fetch(url + idGame, {
+        
+        await fetch('http://localhost:8000/othello/game/' + idGame, {
             headers: {
               Authorization: localStorage.getItem('idToken')
             }
@@ -101,22 +96,18 @@ export default class Sessions extends Component{
             console.log('>>>>> ', resData.game)
         })
         .catch(err=>{console.log(err)});
-        console.log('>>>>> ', idGame)
+
         this.props.history.push({pathname: '/board', state: {game: this.state.game}});  
       }
 
     
     createAllGames(){
         
-        //if(this.state.player2 !== null && this.initialized === false){
         if(this.state.initialized === false){
             console.log(this.state.othello, 'othello')
             for(let i=0; i< this.state.othello; i++){
                 this.createGame('http://localhost:8000/othello/newgame', 'othello'); 
-            }
-            for(let i=0; i< this.state.memory; i++){
-                this.createGame('http://localhost:8000/memory/newgame', 'memory'); 
-            }  
+            } 
         }
         this.setState({initialized: true});
     }
@@ -169,8 +160,7 @@ export default class Sessions extends Component{
                 this.setState({
                     idGames: list
                 })
-            }
-            console.log('juegos: ',this.state.idGames)    
+            }   
         })
         .catch(err=>{
             console.log(err)
@@ -188,7 +178,6 @@ export default class Sessions extends Component{
     }
 
     render(){
-        //let othello = this.state.session.games.othello.num;
         return(
             <div className="jumbotron">
                 <h2 className="display-5 text-center"> Sesion Actual: {this.state.session.name}</h2>
@@ -210,8 +199,6 @@ export default class Sessions extends Component{
                         }  
                     </div>
                         
-                     
-                
                     <div className="card-body">
                         <h5 className="card-title">Lista de Juegos</h5>
                         
@@ -222,13 +209,7 @@ export default class Sessions extends Component{
                             
                             }
                         </div>
-                        <div className="card-text">{this.state.memory > 0 && 
-                            <div>
-                                Memoria: {this.state.memory}<button onClick={this.loadGame} className="btn btn-primary">Jugar</button>
-                            </div>
-                            
-                            }
-                        </div>
+                        
                         <br></br>
                         <a href="/Menu" className="btn btn-danger">Salir</a>
                         

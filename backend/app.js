@@ -55,9 +55,8 @@ mongoose
         // webSockets start
         const io = require('./socket').init(server);
 
-        io.on("connection", socket => {
-            
-            console.log('prueba de socket ID: ', socket.id);    
+        io.on("connection", socket => {       
+            //console.log('prueba de socket ID: ', socket.id);    
         });
         
     })
